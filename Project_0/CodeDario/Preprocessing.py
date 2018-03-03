@@ -22,7 +22,8 @@ DataTrain = np.delete(DataTrain, 0, 1)
 print(DataTrain.shape)
 
 
-X_train = centering(DataTrain[:, 1:])
+X_train = DataTrain[:, 1:]
+# X_train =centering(X_train)
 print('X_train: \n', X_train)
 
 y_train = DataTrain[:, 0]
@@ -38,7 +39,7 @@ X_test = np.delete(X_test, 0, 0)
 X_test = np.delete(X_test, 0, 1)
 print(X_test.shape)
 
-X_test = centering(X_test)
+# X_test = centering(X_test)
 print('X_test: \n', X_test)
 
 np.save('X_test.npy', X_test)
