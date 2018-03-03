@@ -1,17 +1,19 @@
 import os
 import numpy as np
-
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import minmax_scale
+from sklearn.preprocessing import MaxAbsScaler
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import RobustScaler
+from sklearn.preprocessing import Normalizer
 ################# HARDCODED INPUTS ######################
 CallFolder = '/home/dario/Desktop/Intro-to-ML/Project_0/Raw_Data'
 
-
 #########################################################
 # FUNCTIONS FOR PREPROCESSING
-def centering(X_data):
-    mean_vals = np.mean(X_data, axis=0)
-    std_val = np.std(X_data)
-    X_data_centered = (X_data - mean_vals)/std_val
-    del X_data
+def minmax(X_data):
+    scaler = MinMaxScaler(feature_range=(0,1))
+    X_data_centered = scaler.fit_transform(X_data)
     return X_data_centered
 
 #########################################################
@@ -23,7 +25,7 @@ print(DataTrain.shape)
 
 
 X_train = DataTrain[:, 1:]
-# X_train =centering(X_train)
+# X_train =minmax(X_train)
 print('X_train: \n', X_train)
 
 y_train = DataTrain[:, 0]
@@ -39,7 +41,7 @@ X_test = np.delete(X_test, 0, 0)
 X_test = np.delete(X_test, 0, 1)
 print(X_test.shape)
 
-# X_test = centering(X_test)
+# X_test = minmax(X_test)
 print('X_test: \n', X_test)
 
 np.save('X_test.npy', X_test)
