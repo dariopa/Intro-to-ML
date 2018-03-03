@@ -7,7 +7,6 @@ CallFolder = '/home/dario/Desktop/Intro-to-ML/Project_0/Raw_Data'
 
 #########################################################
 # FUNCTIONS FOR PREPROCESSING
-
 def centering(X_data):
     mean_vals = np.mean(X_data, axis=0)
     std_val = np.std(X_data)
