@@ -6,6 +6,7 @@ CallFolder = '/home/dario/Desktop/Intro-to-ML/Task0/Raw_Data'
 
 # Preprocess data?
 pre = False
+
 #########################################################
 # IMPORT, PREPROCESS AND STORE TRAINING DATA AS NUMPY ARRAY
 DataTrain = np.genfromtxt(os.path.join(CallFolder, 'train.csv'), delimiter=',')
@@ -13,8 +14,6 @@ DataTrain = np.delete(DataTrain, 0, 0)
 DataTrain = np.delete(DataTrain, 0, 1)
 
 X_train = DataTrain[:, 1:]
-X_train =PrePro.minmax(X_train)
-
 y_train = DataTrain[:, 0]
 
 #########################################################
@@ -37,4 +36,3 @@ print('X_test:    ', X_test.shape)
 np.save('X_train.npy', X_train)
 np.save('y_train.npy', y_train)
 np.save('X_test.npy', X_test)
-

@@ -7,5 +7,5 @@ def PrintOutput(predictions, filename="y_test.csv"):
         fp.write("Id,y\n")
 
         for i in range(predictions.shape[0]):
-            line = str(10001 + i) + "," + str(predictions[i]) + "\n"
+            line = str(10000 + i) + "," + str(predictions[i]) + "\n"
             fp.write(line)

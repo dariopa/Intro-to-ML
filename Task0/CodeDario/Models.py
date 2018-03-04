@@ -16,11 +16,12 @@ class Regression():
         return y
 
     def RidgeRegression(X_data, y_data, X_test):
-        model =RDG(alpha=0,
+        model =RDG(alpha=0.0000000000001,
                 copy_X=True,
                 fit_intercept=True,
                 max_iter=None,
-                tol=0.00000000000001)
+                solver='auto',
+                tol=0.0000000000001)
         model.fit(X_data, y_data)
 
         y = model.predict(X_test)

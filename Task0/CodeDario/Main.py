@@ -6,7 +6,7 @@ from OutputFormat import PrintOutput
 
 # Decide whether self-evaluation or final submission
 #########################################################
-final_submission = False
+final_submission = True
 
 Train_split = 8./10
 #########################################################
