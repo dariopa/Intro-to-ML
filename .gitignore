@@ -1,5 +1,6 @@
-/Project_0/CodeDario/*.npy
-
+/Task0/CodeDario/*.npy
+/Task0/.vs*
 \.vscode/
 
 Task0/CodeFabrice/__pycache__/
+Task0/CodeDario/__pycache__/
