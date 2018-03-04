@@ -7,7 +7,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import RobustScaler
 from sklearn.preprocessing import Normalizer
 ################# HARDCODED INPUTS ######################
-CallFolder = '/home/dario/Desktop/Intro-to-ML/Project_0/Raw_Data'
+CallFolder = '/home/dario/Desktop/Intro-to-ML/Task0/Raw_Data'
 
 #########################################################
 # FUNCTIONS FOR PREPROCESSING

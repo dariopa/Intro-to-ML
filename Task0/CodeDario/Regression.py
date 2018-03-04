@@ -13,7 +13,9 @@ final_submission = False
 Train_split = 8./10
 #########################################################
 
-def LinRegression(X_data, y_data, X_test):
+def LinRegression(X_data,
+                  y_data,
+                  X_test):
     model =LR(fit_intercept=True, normalize=False, copy_X=True, n_jobs=1)
     model.fit(X_data, y_data)
 
@@ -25,7 +27,6 @@ def RidgeRegression(X_data, y_data, X_test):
                copy_X=True,
                fit_intercept=True,
                max_iter=None,
-               solver='auto',
                tol=0.00000000000001)
     model.fit(X_data, y_data)
 
@@ -54,7 +55,8 @@ print('Shape of X_train:', X_train.shape)
 print('Shape of y_train:', y_train.shape)
 print('Shape of X_test:', X_test.shape)
 
-(X_train, y_train) = shuffle(X_train, y_train)
+(X_train, y_train) = shuffl
+               solver='auto',e(X_train, y_train)
 
 if final_submission == True:
     # y_test_pred = PerceptronRegression(X_train, y_train, X_test)
