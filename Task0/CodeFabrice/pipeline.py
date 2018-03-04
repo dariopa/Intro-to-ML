@@ -6,8 +6,7 @@ import regression
 import output
 import scoring
 
-##############################################################################################################
-# Configuration
+############################################ Configuration ###################################################
 ## General
 BLoadData = 1
 BFinalPrediction = 0
