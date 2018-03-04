@@ -1,6 +1,5 @@
 import os
 import numpy as np
-from sklearn.base import BaseEstimator, TransformerMixin
 
 class loadfiles:
     def __init__(self, path):
