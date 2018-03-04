@@ -3,17 +3,13 @@ import numpy as np
 
 class savedata: 
     def __init__(self, savepath, datapath):
-        self.savepath = savepath
-        self.datapath = datapath
+        self.savepath = savepath # Path where file should be saved
+        self.datapath = datapath # Path where to get the test file for the id's
 
     def saveprediction(self, y_pred):
         X_test = np.genfromtxt(os.path.join(self.datapath, 'test.csv'), delimiter=',')
         X_test = np.delete(X_test, 0, 0)
-        X_test_id = X_test[:,[0]]
-        print(X_test_id)
-        data = np.column_stack((X_test_id, y_pred))
-        print(data)
-        header = np.array(['Id', 'y'])
-        # prediction = np.append(header,)        
-        np.savetxt(os.path.join(self.savepath, 'prediction.csv'), data, fmt='%.18e', delimiter=',', newline='\n', header='Id,y', comments='')
+        X_test_id = X_test[:,[0]]  # Extract id's
+        data = np.column_stack((X_test_id, y_pred)) # stack id's and prediction       
+        np.savetxt(os.path.join(self.savepath, 'prediction.csv'), data, fmt='%.18e', delimiter=',', newline='\n', header='Id,y', comments='') # add header and save file
     

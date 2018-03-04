@@ -1,7 +1,7 @@
 import os
 import numpy as np
 
-class loadfiles:
+class loadfiles: # Class which gets the files and saves them in the right variables
     def __init__(self, path):
         self.path = path
    

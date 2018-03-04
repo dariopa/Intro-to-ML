@@ -1,7 +1,7 @@
 import os
 from sklearn import linear_model
 
-class LinearRegression:
+class LinearRegression: # Simple linear regression
     def __init__(self, save_path=None):
         self.save_path = save_path
     
