@@ -49,7 +49,6 @@ if BRidgeRegression == 1:
     y_pred = RidgeReg.predict(X_test)
 
 ## KFold Cross validation
-
 if BKFoldCrossValidation == 1:
     lambda_array = [0.1, 1, 10, 100, 1000]
     scores = np.empty([5,1])

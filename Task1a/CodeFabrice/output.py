@@ -24,5 +24,5 @@ class savetask1a:
         # X_test_id = X_test[:,[0]]  # Extract id's
         # data = np.column_stack((X_test_id, y_pred)) # stack id's and prediction      
         data = scores 
-        np.savetxt(os.path.join(self.savepath, 'prediction1a.csv'), data, fmt='%.18e', delimiter=' ', newline='\n', header='', comments='') # add header and save file
+        np.savetxt(os.path.join(self.savepath, 'prediction1a.csv'), data, fmt='%5.15f', delimiter=' ', newline='\n', header='', comments='') # add header and save file
     
