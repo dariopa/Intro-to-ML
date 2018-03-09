@@ -1,5 +1,7 @@
 import os
 import numpy as np
+import time 
+import datetime
 
 class savedata: 
     def __init__(self, savepath, datapath):
@@ -24,5 +26,8 @@ class savetask1a:
         # X_test_id = X_test[:,[0]]  # Extract id's
         # data = np.column_stack((X_test_id, y_pred)) # stack id's and prediction      
         data = scores 
-        np.savetxt(os.path.join(self.savepath, 'prediction1a.csv'), data, fmt='%5.15f', delimiter=' ', newline='\n', header='', comments='') # add header and save file
+        st = datetime.datetime.fromtimestamp(time.time()).strftime('%Y%m%d_%H%M%S')
+        filename = st + '_prediction1a.csv'
+        print(filename)
+        np.savetxt(os.path.join(self.savepath, filename), data, fmt='%5.15f', delimiter=' ', newline='\n', header='', comments='') # add header and save file
     
