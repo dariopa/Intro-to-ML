@@ -11,8 +11,9 @@ import scoring
 ############################################ Configuration ###################################################
 ## General
 BLoadData = 1
-BFinalPrediction = 1
+BFinalPrediction = 0
 ## Preprocessing
+BTask1bTransformation = 1
 ## Regression
 BLinearRegression = 0
 BRidgeRegression = 0
@@ -24,7 +25,7 @@ BRMSEScore = 0
 
 ## Load Data
 if BLoadData == 1:
-    dataloader = preprocessing.loadfiles('C:\\Users\\fabri\\git\\Intro-to-ML\\Task1a\\Raw_Data') # Define datafolder - HomePC
+    dataloader = preprocessing.loadfiles('C:\\Users\\fabri\\git\\Intro-to-ML\\Task1b\\Raw_Data') # Define datafolder - HomePC
     # dataloader = preprocessing.loadfiles('C:\\Users\\fabri\\git\\Intro-to-ML\\Task0\\Raw_Data') # Surface
     X_train = dataloader.loadX_train()
     y_train = dataloader.loady_train()
@@ -35,6 +36,11 @@ if BLoadData == 1:
 ## Train / Test Split
 if BFinalPrediction == 0:
     X_train, X_test, y_train, y_test = train_test_split(X_train, y_train, test_size=0.33, random_state=42) 
+
+## Preprocessiong
+if BTask1bTransformation == 1: 
+    trafo = preprocessing.task1btransformation()
+    X_train = trafo.transform(X_train)
 
 ## Linear Regression
 if BLinearRegression == 1:
@@ -69,7 +75,7 @@ if BKFoldCrossValidation == 1:
             scoresum = scoresum + score
         scores[i] = scoresum / 10
         i += 1
-print(scores)
+    print(scores)
 
 ## Score
 if BRMSEScore == 1 and BFinalPrediction == 0:
@@ -79,5 +85,5 @@ if BRMSEScore == 1 and BFinalPrediction == 0:
  
 ## Output Generation
 if BFinalPrediction == 1:
-    datasaver = output.savetask1a('C:\\Users\\fabri\\git\\Output', 'C:\\Users\\fabri\\git\\Intro-to-ML\\Task0\\Raw_Data') # Savepath, Datapath
+    datasaver = output.savetask1a('C:\\Users\\fabri\\git\\Output', 'C:\\Users\\fabri\\git\\Intro-to-ML\\Task1b\\Raw_Data') # Savepath, Datapath
     datasaver.saveprediction(scores)

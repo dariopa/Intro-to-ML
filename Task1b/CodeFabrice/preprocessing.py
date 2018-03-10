@@ -24,3 +24,20 @@ class loadfiles: # Class which gets the files and saves them in the right variab
         X_test = np.delete(X_test, 0, 0)
         X_test = np.delete(X_test, 0, 1)
         return X_test
+
+class task1btransformation:
+    def __init__(self, save_path=None):
+        self.save_path = save_path
+    
+    def transform(self, X):
+        shape = X.shape
+        print(shape[0])
+        X_new = np.empty([shape[0], 21])
+        for i in range(0, shape[0]):
+            X_new[i,0:5] = X[i,0:5] # Linear 
+            X_new[i,5:10] = np.square(X[i,0:5]) # Quadratic
+            X_new[i,10:15] = np.exp(X[i,0:5]) # Exponential
+            X_new[i,15:20] = np.cos(X[i,0:5]) # Cosine
+            X_new[i,20] = 1
+        print(X_new.shape)
+        return X_new
