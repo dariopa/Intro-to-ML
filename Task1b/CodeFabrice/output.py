@@ -30,4 +30,20 @@ class savetask1a:
         filename = st + '_prediction1a.csv'
         print(filename)
         np.savetxt(os.path.join(self.savepath, filename), data, fmt='%5.15f', delimiter=' ', newline='\n', header='', comments='') # add header and save file
+
+class savetask1b: 
+    def __init__(self, savepath, datapath):
+        self.savepath = savepath # Path where file should be saved
+        self.datapath = datapath # Path where to get the test file for the id's
+
+    def saveprediction(self, weights):
+        # X_test = np.genfromtxt(os.path.join(self.datapath, 'test.csv'), delimiter=',')
+        # X_test = np.delete(X_test, 0, 0)
+        # X_test_id = X_test[:,[0]]  # Extract id's
+        # data = np.column_stack((X_test_id, y_pred)) # stack id's and prediction      
+        data = weights 
+        st = datetime.datetime.fromtimestamp(time.time()).strftime('%Y%m%d_%H%M%S')
+        filename = st + '_prediction1b.csv'
+        print(filename)
+        np.savetxt(os.path.join(self.savepath, filename), data, fmt='%5.15f', delimiter=' ', newline='\n', header='', comments='') # add header and save file
     

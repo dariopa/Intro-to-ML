@@ -17,10 +17,11 @@ BTask1bTransformation = 1
 ## Regression
 BLinearRegression = 0
 BRidgeRegression = 0
+BLassoRegression = 1
 BKFoldCrossValidation = 0
 ## Postprocessing
 ## Score
-BRMSEScore = 0
+BRMSEScore = 1
 ##############################################################################################################
 
 ## Load Data
@@ -41,22 +42,36 @@ if BFinalPrediction == 0:
 if BTask1bTransformation == 1: 
     trafo = preprocessing.task1btransformation()
     X_train = trafo.transform(X_train)
+    if BFinalPrediction == 0:
+        X_test = trafo.transform(X_test)
 
 ## Linear Regression
 if BLinearRegression == 1:
     LinReg = regression.LinearRegression()
-    LinReg.fit(X_train, y_train) 
-    y_pred = LinReg.predict(X_test)
+    LinReg.fit(X_train, y_train)
+    if BFinalPrediction == 0: 
+        y_pred = LinReg.predict(X_test)
+    w = LinReg.getcoeff()
 
 if BRidgeRegression == 1:
-    l = 1
+    l = 15
     RidgeReg = regression.RidgeRegression(alpha = l)
     RidgeReg.fit(X_train, y_train) 
-    y_pred = RidgeReg.predict(X_test)
+    if BFinalPrediction == 0: 
+        y_pred = RidgeReg.predict(X_test)
+    w = RidgeReg.getcoeff()
+
+if BLassoRegression == 1:
+    l = 0.5
+    LassoReg = regression.LassoRegression(alpha = l)
+    LassoReg.fit(X_train, y_train) 
+    if BFinalPrediction == 0: 
+        y_pred = LassoReg.predict(X_test)
+    w = LassoReg.getcoeff()
 
 ## KFold Cross validation
 if BKFoldCrossValidation == 1:
-    lambda_array = [0.1, 1, 10, 100, 1000]
+    lambda_array = [0.05, 0.1, 0.15, 0.2]
     scores = np.empty([5,1])
     i = 0
     X = X_train
@@ -67,9 +82,14 @@ if BKFoldCrossValidation == 1:
         for train_index, test_index in kf.split(X):
             X_train, X_test = X[train_index], X[test_index]
             y_train, y_test = y[train_index], y[test_index]
-            RidgeReg = regression.RidgeRegression(alpha = l)
-            RidgeReg.fit(X_train, y_train)
-            y_pred = RidgeReg.predict(X_test)
+            if BRidgeRegression == 1:
+                RidgeReg = regression.RidgeRegression(alpha = l)
+                RidgeReg.fit(X_train, y_train)
+                y_pred = RidgeReg.predict(X_test)
+            if BLassoRegression == 1:
+                LassoReg = regression.LassoRegression(alpha = l)
+                LassoReg.fit(X_train, y_train) 
+                y_pred = LassoReg.predict(X_test)
             scorer = scoring.score()
             score = scorer.RMSE(y_test, y_pred)
             scoresum = scoresum + score
@@ -85,5 +105,5 @@ if BRMSEScore == 1 and BFinalPrediction == 0:
  
 ## Output Generation
 if BFinalPrediction == 1:
-    datasaver = output.savetask1a('C:\\Users\\fabri\\git\\Output', 'C:\\Users\\fabri\\git\\Intro-to-ML\\Task1b\\Raw_Data') # Savepath, Datapath
-    datasaver.saveprediction(scores)
+    datasaver = output.savetask1b('C:\\Users\\fabri\\git\\Output', 'C:\\Users\\fabri\\git\\Intro-to-ML\\Task1b\\Raw_Data') # Savepath, Datapath
+    datasaver.saveprediction(w)

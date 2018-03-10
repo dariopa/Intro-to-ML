@@ -39,5 +39,4 @@ class task1btransformation:
             X_new[i,10:15] = np.exp(X[i,0:5]) # Exponential
             X_new[i,15:20] = np.cos(X[i,0:5]) # Cosine
             X_new[i,20] = 1
-        print(X_new.shape)
         return X_new
