@@ -1,0 +1,50 @@
+clc;	% Clear command window.
+clear;	% Delete all variables.
+close all;	% Close all figure windows except those created by imtool.
+imtool close all;	% Close all figure windows created by imtool.
+
+datapath = 'C:\Users\dario\Documents\Intro-to-ML\Task1b\Raw_data\';
+
+Data = csvread(fullfile(datapath, 'train.csv'), 1, 1);
+
+y_train = Data(:, 1);
+X = Data(:, 2:6);
+[row, col] = size(y_train);
+
+%% Fit gaussian functions for red, green and blue channel:    
+my_option = optimset('display','iter','TolFun', 1e-100, 'TolX', 1e-100, 'MaxIter',200, 'MaxFunEvals',10000);
+a = 1;
+w1 = a;
+w2 = 
+w3 = 0.5;
+w4 = 0.5;
+w5 = 0.5;
+w6 = 0.5;
+w7 = 0.5;
+w8 = 0.5;
+w9 = 0.5;
+w10 = 0.5;
+w11 = 0.5;
+w12 = 0.5;
+w13 = 0.5;
+w14 = 0.5;
+w15 = 0.5;
+w16 = 0.5;
+w17 = 0.5;
+w18 = 0.5;
+w19 = 0.5;
+w20 = 0.5;
+w21 = 0.5;
+
+weights = [w1, w2, w3, w4, w5, w6, w7, w8, w9, w10, w11, w12, w13, w14, w15, w16, w17, w18, w19, w20, w21];
+fun = @(weights, X)(weights(1,1).*X(:,1) + weights(1,2).*X(:,2) + weights(1,3).*X(:,3) + weights(1,4).*X(:,4) + weights(1,5).*X(:,5)...
+     + weights(1,6).*X(:,1).^2 + weights(1,7).*X(:,2).^2 + weights(1,8).*X(:,3).^2 + weights(1,9).*X(:,4).^2 + weights(1,10).*X(:,5).^2 ...
+     + weights(1,11).*exp(X(:,1)) + weights(1,12).*exp(X(:,2)) + weights(1,13).*exp(X(:,3)) + weights(1,14).*exp(X(:,4)) + weights(1,15).*exp(X(:,5)) ...
+     + weights(1,16).*cos(X(:,1)) + weights(1,17).*cos(X(:,2)) + weights(1,18).*cos(X(:,3)) + weights(1,19).*cos(X(:,4)) + weights(1,20).*cos(X(:,5)) ...
+     + weights(1,21).*1); 
+weights =lsqcurvefit(fun,weights,X,y_train,[],[],my_option);
+weights = weights';
+disp(weights);
+csvwrite('result.csv',weights);
+
+
