@@ -15,27 +15,13 @@ class Regression():
         return weights
 
     def RidgeRegression(X_data, y_data):
-        model =RDG(alpha=0.01,
+        model =RDG(alpha=0.5,
                 copy_X=True,
                 fit_intercept=True,
                 max_iter=None,
-                solver='svd',
-                tol=0.001)
+                solver='lsqr',
+                tol=0.0001)
         model.fit(X_data, y_data)
         
-        weights = model.coef_
-        return weights
-
-    def PerceptronRegression(X_data, y_data):
-        model = MLP(hidden_layer_sizes=(5,5),
-                    activation='relu',
-                    solver='adam',
-                    learning_rate_init=0.001,
-                    tol=0.000001,
-                    max_iter=20000,
-                    shuffle=True,
-                    verbose=0)
-        model.fit(X_data, y_data)
-
         weights = model.coef_
         return weights

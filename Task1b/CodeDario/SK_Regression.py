@@ -16,3 +16,4 @@ weights = Regression.RidgeRegression(X_train, y_train)
 # weights = Regression.LinRegression(X_train, y_train)
     
 PrintOutput_1b(weights)
+print(weights)
