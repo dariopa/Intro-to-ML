@@ -19,7 +19,6 @@ def PrintOutput_1b(weights, filename="y_test.csv"):
             fp.write(line)
         
         if i < 20:
-            print(i)
             for j in range(20-i):
                 line = str(0.0) + "\n"
                 fp.write(line)

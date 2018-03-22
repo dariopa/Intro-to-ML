@@ -18,7 +18,7 @@ y_train = DataTrain[:, 0]
 
 #########################################################
 # PREPROCESS DATA
-X_train = PrePro.GenerateData_no_cos(X_train)
+X_train = PrePro.GenerateData_all(X_train)
 
 if pre == True:
     X_train = PrePro.minmax(X_train)
