@@ -1,7 +1,7 @@
 from sklearn.neural_network import MLPRegressor as MLP
 from sklearn.linear_model import Ridge as RDG
 from sklearn.linear_model import LinearRegression as LR
-
+from sklearn.linear_model import Lasso as LS
 
 class Regression():
     def LinRegression(X_data, y_data):
@@ -25,3 +25,13 @@ class Regression():
         
         weights = model.coef_
         return weights
+
+    def LassoRegression(X_data, y_data):
+        model =LS(alpha=1.0,
+                max_iter=10000,
+                tol=0.0001)
+        model.fit(X_data, y_data)
+        
+        weights = model.coef_
+        return weights
+

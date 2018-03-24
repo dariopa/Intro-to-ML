@@ -12,7 +12,8 @@ y_train = np.load('y_train.npy')
 #########################################################
 # TRAIN DATA
 
-weights = Regression.RidgeRegression(X_train, y_train)
+# weights = Regression.RidgeRegression(X_train, y_train)
+weights = Regression.LassoRegression(X_train, y_train)
 # weights = Regression.LinRegression(X_train, y_train)
     
 PrintOutput_1b(weights)

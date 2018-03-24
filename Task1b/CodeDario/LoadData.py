@@ -15,7 +15,8 @@ y_train = DataTrain[:, 0]
 
 #########################################################
 # PREPROCESSING DATA
-def no_cos(X_data):
+def retain(X_data):
+    X_data[:, 0:3] = 0.
     X_data[:, 15:20] = 0.
     return X_data
 #########################################################
@@ -28,7 +29,7 @@ X_train_full[:, 10:15] = np.exp(X_train)
 X_train_full[:, 15:20] = np.cos(X_train)
 X_train_full[:, 20:21] = 1.
 
-X_train_full = no_cos(X_train_full)
+X_train_full = retain(X_train_full)
 print(X_train_full)
     
 #########################################################
