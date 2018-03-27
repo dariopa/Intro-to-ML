@@ -35,8 +35,12 @@ class task1btransformation:
         X_new = np.empty([shape[0], 21])
         for i in range(0, shape[0]):
             X_new[i,0:5] = X[i,0:5] # Linear 
+            X_new[i,0:3] = X[i,0:3]*0 # Linear 
             X_new[i,5:10] = np.square(X[i,0:5]) # Quadratic
+            # X_new[i,5:10] = np.square(X[i,0:5])*0 # Quadratic
             X_new[i,10:15] = np.exp(X[i,0:5]) # Exponential
+            # X_new[i,10:15] = np.exp(X[i,0:5])*0 # Exponential
             X_new[i,15:20] = np.cos(X[i,0:5]) # Cosine
+            X_new[i,15:20] = np.cos(X[i,0:5])*0 # Cosine
             X_new[i,20] = 1
         return X_new

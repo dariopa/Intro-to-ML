@@ -11,7 +11,7 @@ import scoring
 ############################################ Configuration ###################################################
 ## General
 BLoadData = 1
-BFinalPrediction = 0
+BFinalPrediction = 1
 ## Preprocessing
 BTask1bTransformation = 1
 ## Regression
@@ -62,7 +62,7 @@ if BRidgeRegression == 1:
     w = RidgeReg.getcoeff()
 
 if BLassoRegression == 1:
-    l = 0.5
+    l = 1
     LassoReg = regression.LassoRegression(alpha = l)
     LassoReg.fit(X_train, y_train) 
     if BFinalPrediction == 0: 
@@ -71,14 +71,14 @@ if BLassoRegression == 1:
 
 ## KFold Cross validation
 if BKFoldCrossValidation == 1:
-    lambda_array = [0.05, 0.1, 0.15, 0.2]
-    scores = np.empty([5,1])
+    lambda_array = [0.00005, 0.0001, 0.0005]
+    scores = np.empty([3,1])
     i = 0
     X = X_train
     y = y_train
     for l in lambda_array:
         scoresum = 0.0
-        kf = KFold(n_splits=10, random_state=42)
+        kf = KFold(n_splits=5, random_state=21)
         for train_index, test_index in kf.split(X):
             X_train, X_test = X[train_index], X[test_index]
             y_train, y_test = y[train_index], y[test_index]
@@ -93,7 +93,7 @@ if BKFoldCrossValidation == 1:
             scorer = scoring.score()
             score = scorer.RMSE(y_test, y_pred)
             scoresum = scoresum + score
-        scores[i] = scoresum / 10
+        scores[i] = scoresum / 5
         i += 1
     print(scores)
 
