@@ -27,11 +27,11 @@ class Regression():
         return weights
 
     def LassoRegression(X_data, y_data):
-        model =LS(alpha=1.0,
+        model =LS(alpha=0.6,
                 max_iter=10000,
                 tol=0.0001)
         model.fit(X_data, y_data)
-        
+
         weights = model.coef_
         return weights
 
