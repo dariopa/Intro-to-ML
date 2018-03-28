@@ -48,22 +48,19 @@ if final_submission == True:
     timestr = time.strftime("%Y%m%d-%H%M%S")
     PrintOutput(y_test_pred, timestr + '_y_test.csv')
     print('\nJob Done!')
-else:
 
+else:
     samples = len(X_train)
     X_train_selfeval = X_train[0:int(Train_split * samples), :]
     y_train_onehot_selfeval = y_train_onehot[0:int(Train_split * samples)]
     y_train_selfeval = y_train[0:int(Train_split * samples)]
-
     print('Shape of X_train:', X_train_selfeval.shape)
     print('Shape of y_train_onehot:', y_train_onehot_selfeval.shape)
     print('Shape of y_train:', y_train_selfeval.shape)
 
- 
     X_test_selfeval = X_train[int(Train_split * samples):samples, :]
     y_test_onehot_selfeval = y_train_onehot[int(Train_split * samples):samples]
     y_test_selfeval = y_train[int(Train_split * samples):samples]
-
     print('Shape of X_test:', X_test_selfeval.shape)
     print('Shape of y_test_onehot:', y_test_onehot_selfeval.shape)
     print('Shape of y_test:', y_test_selfeval.shape)
