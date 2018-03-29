@@ -28,7 +28,6 @@ class KERAS():
                 bias_initializer='zeros',
                 activation='softmax'))
 
-        # sgd_optimizer = keras.optimizers.SGD(lr=0.001, momentum=0.9, decay=1e-9)
         sgd_optimizer = keras.optimizers.Adam(lr=0.001)
 
         model.compile(optimizer=sgd_optimizer, loss='categorical_crossentropy')
