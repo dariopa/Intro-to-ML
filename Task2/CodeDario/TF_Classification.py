@@ -21,7 +21,7 @@ Train_split = 8./10
 epochs = 100
 param = 30
 layers = 2
-batch_size = 64
+batch_size = 32
 
 #########################################################
 # LOAD AND SHUFFLE DATA!
