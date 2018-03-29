@@ -14,14 +14,14 @@ tf.set_random_seed(123)
 
 #########################################################
 # Decide whether self-evaluation or final submission
-final_submission = False
+final_submission = True
 Train_split = 8./10
 
 # Hyperparameters
 epochs = 100
 param = 30
 layers = 2
-batch_size = 128
+batch_size = 64
 
 #########################################################
 # LOAD AND SHUFFLE DATA!
@@ -52,7 +52,7 @@ if final_submission == True:
     
     
     timestr = time.strftime("%Y%m%d-%H%M%S")
-    PrintOutput(y_test_pred, timestr + '_y_test.csv')
+    PrintOutput(y_test_pred, timestr + '_' + str(epochs) + '_' + str(param) + '_' + str(layers) + '_' + str(batch_size) + '_y_test.csv')
     print('\nJob Done!')
 
 else:
@@ -82,7 +82,7 @@ else:
     # PREDICT SELF-EVALUATION!
     correct_preds = np.sum(y_test_pred == y_test_selfeval, axis=0)
     test_acc = correct_preds / y_test_selfeval.shape[0]
-    print('Test Accuracy:  %.2f%%' % (test_acc * 100) )
+    print('Test Accuracy:  %.2f%%' % (test_acc * 100))
     print('\nJob Done!')
 
 
