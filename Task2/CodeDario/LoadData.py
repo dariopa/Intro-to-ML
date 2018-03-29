@@ -23,6 +23,16 @@ X_test = np.delete(X_test, 0, 0)
 X_test = np.delete(X_test, 0, 1)
 
 #########################################################
+# PREPROCESS DATA
+def retain(X_data):
+    X_data = np.delete(X_data, [4,5,6,7,8], 1)
+    return X_data
+
+if pre == True:
+    X_train = retain(X_train)
+    X_test = retain(X_test)
+
+#########################################################
 # STORE DATA AS NUMPY ARRAY
 print('X_train:   ', X_train.shape, end=' ||  ')
 print('y_train:   ', y_train.shape)
