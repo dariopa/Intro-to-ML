@@ -18,9 +18,9 @@ final_submission = False
 Train_split = 8./10
 
 # Hyperparameters
-epochs = 150
+epochs = 100
 param = 30
-layers = 1
+layers = 2
 batch_size = 128
 
 #########################################################
