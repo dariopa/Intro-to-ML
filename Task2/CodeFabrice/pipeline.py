@@ -20,8 +20,9 @@ BLinearRegression = 0
 BRidgeRegression = 0
 BLassoRegression = 0
 ## Classification
-BSVClassification = 1
-BMultiClassSVC = 1
+BSVClassification = 0
+BMultiClassSVC = 0
+BMLPClassification = 1
 ## Misc
 BKFoldCrossValidation = 0
 ## Postprocessing
@@ -87,6 +88,13 @@ if BMultiClassSVC == 1:
     SVClass = classification.MultiClassSVC()
     SVClass.fit(X_train, y_train) 
     y_pred = SVClass.predict(X_test)
+
+## Multilayer Perceptron
+if BMLPClassification == 1:
+    MLPClass = classification.MLPClassification()
+    MLPClass.fit(X_train, y_train) 
+    y_pred = MLPClass.predict(X_test)
+
 
 ## KFold Cross validation
 if BKFoldCrossValidation == 1:
