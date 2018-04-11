@@ -25,7 +25,8 @@ X_test = np.delete(X_test, 0, 1)
 #########################################################
 # PREPROCESS DATA
 def retain(X_data):
-    X_data = np.delete(X_data, [4,5,6,7,8], 1)
+    # X_data = np.delete(X_data, [4,5,6,7,8], 1)
+    X_data = np.delete(X_data, [3,4,5,6,15,16], 1)
     return X_data
 
 if pre == True:
