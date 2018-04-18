@@ -28,9 +28,9 @@ class KERAS():
                 bias_initializer='zeros',
                 activation='softmax'))
 
-        sgd_optimizer = keras.optimizers.Adam(lr=0.001)
+        optimizer = keras.optimizers.Adam(lr=0.001)
 
-        model.compile(optimizer=sgd_optimizer, loss='categorical_crossentropy')
+        model.compile(optimizer=optimizer, loss='categorical_crossentropy')
         return model
     
     def fit(model, X_train, y_train_onehot, epochs, batch_size):
