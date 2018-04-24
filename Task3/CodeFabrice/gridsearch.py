@@ -15,7 +15,7 @@ import math
 
 ############################################ Configuration ###################################################
 # Decide whether self-evaluation or final submission
-final_submission = True
+final_submission = False
 Train_split = 8./10
 
 ## General
@@ -34,7 +34,7 @@ layers = 3
 batch_size = 32
 
 # Gridsearch
-BGridSearch = 1
+BGridSearch = 0
 epoch_list = [75, 90, 100, 120]
 param_list = [24, 30, 36, 42]
 layer_list = [1, 2, 3, 4]
@@ -48,7 +48,7 @@ BAccuracy = 1
 
 ## Load Data
 if BLoadData == 1:
-    dataloader = preprocessing.loadfiles('C:\\Users\\fabri\\git\\Intro-to-ML\\Task2\\Raw_Data') # Define datafolder - HomePC
+    dataloader = preprocessing.loadfiles3('C:\\Users\\fabri\\git\\Intro-to-ML\\Task3\\Raw_Data') # Define datafolder - HomePC
     # dataloader = preprocessing.loadfiles('C:\\Users\\fabri\\git\\Intro-to-ML\\Task0\\Raw_Data') # Surface
     X_train = dataloader.loadX_train()
     y_train = dataloader.loady_train()
@@ -120,5 +120,5 @@ if BGridSearch == 1 and BFinalPrediction == 0:
 
 ## Output Generation
 if BFinalPrediction == 1:
-    datasaver = output.savetask2('C:\\Users\\fabri\\git\\Output', 'C:\\Users\\fabri\\git\\Intro-to-ML\\Task2\\Raw_Data') # Savepath, Datapath
+    datasaver = output.savetask3('C:\\Users\\fabri\\git\\Output', 'C:\\Users\\fabri\\git\\Intro-to-ML\\Task3\\Raw_Data') # Savepath, Datapath
     datasaver.saveprediction(y_pred)

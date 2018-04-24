@@ -1,5 +1,6 @@
 import os
 import numpy as np
+import pandas as pd
 
 class loadfiles: # Class which gets the files and saves them in the right variables
     def __init__(self, path):
@@ -23,6 +24,36 @@ class loadfiles: # Class which gets the files and saves them in the right variab
         X_test = np.genfromtxt(os.path.join(self.path, 'test.csv'), delimiter=',')
         X_test = np.delete(X_test, 0, 0)
         X_test = np.delete(X_test, 0, 1)
+        return X_test
+
+class loadfiles3: # Class which gets the files and saves them in the right variables
+    def __init__(self, path):
+        self.path = path
+   
+    def loadX_train(self):
+        DataTrain = pd.read_hdf(os.path.join(self.path, "train.h5"), "train")
+        DataTrain = DataTrain.values
+        # DataTrain = np.delete(DataTrain, 0, 0)
+        # DataTrain = np.delete(DataTrain, 0, 1)
+        X_train = DataTrain[:, 1:]
+        print(X_train)
+        return X_train
+
+    def loady_train(self):
+        DataTrain = pd.read_hdf(os.path.join(self.path, "train.h5"), "train")
+        DataTrain = DataTrain.values
+        # DataTrain = np.delete(DataTrain, 0, 0)
+        # DataTrain = np.delete(DataTrain, 0, 1)
+        y_train = DataTrain[:, 0]
+        return y_train
+
+    def loadX_test(self):
+        X_test = pd.read_hdf(os.path.join(self.path, "test.h5"), "test")
+        print(X_test.index.values)
+        X_test = X_test.values
+        # X_test = np.delete(X_test, 0, 0)
+        # X_test = np.delete(X_test, 0, 1)
+        
         return X_test
 
 class task1btransformation:

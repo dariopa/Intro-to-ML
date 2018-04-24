@@ -2,6 +2,7 @@ import os
 import numpy as np
 import time 
 import datetime
+import pandas as pd
 
 class savedata: 
     def __init__(self, savepath, datapath):
@@ -61,4 +62,20 @@ class savetask2:
         filename = st + '_prediction2.csv'
         print(filename)
         np.savetxt(os.path.join(self.savepath, filename), data, fmt='%2.15f', delimiter=',', newline='\n', header='Id,y', comments='') # add header and save file
-    
+
+class savetask3: 
+    def __init__(self, savepath, datapath):
+        self.savepath = savepath # Path where file should be saved
+        self.datapath = datapath # Path where to get the test file for the id's
+
+    def saveprediction(self, y_pred):
+        X_test = pd.read_hdf(os.path.join(self.datapath, "test.h5"), "test")
+        X_test_id = X_test.index.values
+        print(X_test_id.shape)
+        print(y_pred.shape)
+        data = np.column_stack((X_test_id, y_pred)) # stack id's and prediction      
+        st = datetime.datetime.fromtimestamp(time.time()).strftime('%Y%m%d_%H%M%S')
+        filename = st + '_prediction3.csv'
+        print(filename)
+        np.savetxt(os.path.join(self.savepath, filename), data, fmt='%2.2f', delimiter=',', newline='\n', header='Id,y', comments='') # add header and save file
+        
