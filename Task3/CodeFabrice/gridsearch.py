@@ -29,16 +29,16 @@ BFinalPrediction = 1
 # batch_size = 32
 
 epochs = 90
-param = 42
-layers = 3
+param = 30
+layers = 2
 batch_size = 32
 
 # Gridsearch
-BGridSearch = 0
-epoch_list = [75, 90, 100, 120]
-param_list = [24, 30, 36, 42]
-layer_list = [1, 2, 3, 4]
-batch_size_list = [16, 32, 64, 128]
+BGridSearch = 1
+epoch_list = [90, 100]
+param_list = [30, 36]
+layer_list = [2, 3]
+batch_size_list = [32, 64]
 
 ## Postprocessing
 ## Score
