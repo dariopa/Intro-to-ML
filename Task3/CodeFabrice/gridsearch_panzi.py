@@ -4,6 +4,8 @@ import time
 from matplotlib.pyplot import imshow
 import matplotlib.pyplot as plt
 import tensorflow.contrib.keras as keras
+from utils_NN import NeuralNetworks as NN
+from utils_training import train, predict
 from sklearn.utils import shuffle
 from sklearn.metrics import mean_squared_error
 from tf_models import KERAS
@@ -23,28 +25,34 @@ BLoadData = 1
 BFinalPrediction = 1
 
 # Hyperparameters
-# epochs = 100
-# param = 30
-# layers = 2
-# batch_size = 32
+random_seed = 42
 
 epochs = 90
 param = 30
 layers = 2
 batch_size = 32
+learning_rate = 0.001
 
 # Gridsearch
 BGridSearch = 1
 epoch_list = [90, 100]
 param_list = [30, 36]
-layer_list = [2, 3]
 batch_size_list = [32, 64]
+learning_rate_list = [0.001, 0.02]
 
 ## Postprocessing
 ## Score
 BRMSEScore = 0
 BAccuracy = 1
 ##############################################################################################################
+
+np.random.seed(random_seed)
+tf.set_random_seed(random_seed)
+
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True #Do not assign whole gpu memory, just use it on the go
+config.allow_soft_placement = True #If an operation is not defined in the default device, let it execute in another.
+
 
 ## Load Data
 if BLoadData == 1:
@@ -55,28 +63,44 @@ if BLoadData == 1:
     X_test = dataloader.loadX_test()
     print('X_train shape: ', X_train.shape)
     print('y_train shape: ', y_train.shape)
+    
 
 ## Train / Test Split 
 if BFinalPrediction == 0:
     X_train, X_test, y_train, y_test = train_test_split(X_train, y_train, test_size=0.33, random_state=32) 
-    
-if BGridSearch == 0 or BFinalPrediction == 1: 
-    ## Create one hot format
-    y_train_onehot = keras.utils.to_categorical(y_train)
-    print('First 3 labels: ', y_train[:3])
-    print('First 3 onehot labels:\n', y_train_onehot[:3])
 
-    # build model:
-    model = KERAS.build(X_train, y_train_onehot, param, layers)
-    # train model:
-    trained_model, losses = KERAS.fit(model, X_train, y_train_onehot, epochs, batch_size)
-    # predict labels:
-    y_pred = KERAS.predict(trained_model, X_test)
+classes = np.max(y_train)+1
+(X_train, y_train) = shuffle(X_train, y_train)
+
+if BGridSearch == 0 or BFinalPrediction == 1: 
+    ##################
+    # CREATE GRAPH
+    ## create a graph
+    g = tf.Graph()
+    with g.as_default():
+        tf.set_random_seed(random_seed)
+        ## build the graph
+        NN.build_NN(classes, learning_rate, params)
+
+    ##################
+    # TRAINING & PREDICTION
+    print()
+    print('Training... ')
+    with tf.Session(graph=g, config=config) as sess:
+        [avg_loss_plot, test_accuracy_plot] = train(sess=sess, epochs=epochs,
+                                                    random_seed=random_seed,
+                                                    batch_size=batch_size,                                                                 
+                                                    training_set=(X_train, y_train),
+                                                    test_set=None)
+
+        np.save(os.path.join(StoreFolder, timestr + '_avg_loss_plot.npy'), avg_loss_plot)
+
+        y_test_pred = predict(sess, X_test)
 
     ## Score
     if BAccuracy == 1 and BFinalPrediction == 0:
         scorer = scoring.score()
-        score = scorer.Accuracy(y_test, y_pred)
+        score = scorer.Accuracy(y_test, y_test_pred)
         print('Accuracy score is = ', repr(score))
 
 if BGridSearch == 1 and BFinalPrediction == 0: 
@@ -85,26 +109,39 @@ if BGridSearch == 1 and BFinalPrediction == 0:
     score_best = 0
     while i < iters:
         epochs = epoch_list[i%len(epoch_list)]
-        param = param_list[math.floor((i/len(param_list))%len(epoch_list))]
-        layers = layer_list[math.floor((i/(len(param_list)*len(layer_list)))%len(epoch_list))]
+        params = param_list[math.floor((i/len(param_list))%len(epoch_list))]
+        learning_rate= learning_rate_list[math.floor((i/(len(param_list)*len(layer_list)))%len(epoch_list))]
         batch_size = batch_size_list[math.floor((i/(len(param_list)*len(layer_list)*len(batch_size_list)))%len(epoch_list))]
         print('epoch = ', repr(epochs), '| param = ', repr(param), '| layers = ', repr(layers), '| batch_size = ', repr(batch_size))
-        ## Create one hot format
-        y_train_onehot = keras.utils.to_categorical(y_train)
-        print('First 3 labels: ', y_train[:3])
-        print('First 3 onehot labels:\n', y_train_onehot[:3])
+        ##################
+        # CREATE GRAPH
+        ## create a graph
+        g = tf.Graph()
+        with g.as_default():
+            tf.set_random_seed(random_seed)
+            ## build the graph
+            NN.build_NN(classes, learning_rate, params)
 
-        # build model:
-        model = KERAS.build(X_train, y_train_onehot, param, layers)
-        # train model:
-        trained_model, losses = KERAS.fit(model, X_train, y_train_onehot, epochs, batch_size)
-        # predict labels:
-        y_pred = KERAS.predict(trained_model, X_test)
+        ##################
+        # TRAINING & PREDICTION
+        print()
+        print('Training... ')
+        with tf.Session(graph=g, config=config) as sess:
+            [avg_loss_plot, test_accuracy_plot] = train(sess=sess, epochs=epochs,
+                                                        random_seed=random_seed,
+                                                        batch_size=batch_size,                                                                 
+                                                        training_set=(X_train_selfeval, y_train_selfeval),
+                                                        test_set=(X_test_selfeval, y_test_selfeval))
+
+            np.save(os.path.join(StoreFolder_selfeval, timestr + '_avg_loss_plot.npy'), avg_loss_plot)
+            np.save(os.path.join(StoreFolder_selfeval, timestr + '_test_accuracy_plot.npy'), test_accuracy_plot)
+
+        y_test_pred = predict(sess, X_test)
 
         ## Score
         if BAccuracy == 1 and BFinalPrediction == 0:
             scorer = scoring.score()
-            score = scorer.Accuracy(y_test, y_pred)
+            score = scorer.Accuracy(y_test, y_test_pred)
             print('Accuracy score is = ', repr(score))
         
         if score > score_best:
