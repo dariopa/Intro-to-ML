@@ -40,10 +40,10 @@ Train_split = 9./10
 preprocessing = True
 
 # Hyperparameters
-epochs = 20
+epochs = 81
 batch_size = 32
 learning_rate = 0.001
-params = 67
+params = 88
 
 #########################################################
 # LOAD AND SHUFFLE DATA!
