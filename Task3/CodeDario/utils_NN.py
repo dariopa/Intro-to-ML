@@ -63,7 +63,7 @@ def fc_layer(input_tensor, name,
 ######################################################################################
 
 class NeuralNetworks():
-    def build_NN(classes, learning_rate):
+    def build_NN(classes, learning_rate, params):
         # Placeholders for X and y:
         tf_x = tf.placeholder(tf.float32, shape=[None, 100], name='tf_x')
         tf_y = tf.placeholder(tf.int32, shape=[None], name='tf_y')
@@ -76,19 +76,19 @@ class NeuralNetworks():
         print('\nBuilding Neural Network...')
         # 1st layer: FulCon_1
         h1 = fc_layer(tf_x, name='fc_1',
-                    n_output_units=42,
+                    n_output_units=params,
                     activation_fn=tf.nn.relu)
         # 2nd layer: FulCon_2
         h2 = fc_layer(h1, name='fc_2',
-                    n_output_units=42,
+                    n_output_units=params,
                     activation_fn=tf.nn.relu)
         # 3nd layer: FulCon_3
         h3 = fc_layer(h2, name='fc_3',
-                    n_output_units=42,
+                    n_output_units=params,
                     activation_fn=tf.nn.relu)
         # 4th layer: FulCon_4
         h4 = fc_layer(h3, name='fc_4',
-                    n_output_units=42,
+                    n_output_units=params,
                     activation_fn=tf.nn.relu)
         # Dropout
         keep_prob = tf.placeholder(tf.float32, name='fc_keep_prob')

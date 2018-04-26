@@ -9,6 +9,7 @@ from sklearn.utils import shuffle
 from utils_output import PrintOutput
 from utils_NN import NeuralNetworks as NN
 from utils_training import train, predict
+from utils_preprocessing import centering
 
 config = tf.ConfigProto()
 config.gpu_options.allow_growth = True #Do not assign whole gpu memory, just use it on the go
@@ -33,12 +34,16 @@ if not os.path.isdir(StoreFolder_selfeval):
 #########################################################
 # Decide whether self-evaluation or final submission
 final_submission = True
-Train_split = 8./10
+Train_split = 9./10
+
+# You want to preprocess the data?
+preprocessing = True
 
 # Hyperparameters
-epochs = 100
-batch_size = 64
+epochs = 20
+batch_size = 32
 learning_rate = 0.001
+params = 67
 
 #########################################################
 # LOAD AND SHUFFLE DATA!
@@ -57,6 +62,8 @@ print('X_test:    ', X_test.shape)
 #########################################################
 # TRAIN DATA
 if final_submission == True:
+    if preprocessing == True:
+        X_train, X_test = centering(X_train, X_test)
 
     print('Shape of X_train:', X_train.shape)
     print('Shape of y_train:', y_train.shape)
@@ -69,7 +76,7 @@ if final_submission == True:
     with g.as_default():
         tf.set_random_seed(random_seed)
         ## build the graph
-        NN.build_NN(classes, learning_rate)
+        NN.build_NN(classes, learning_rate, params)
 
     ##################
     # TRAINING & PREDICTION
@@ -87,7 +94,7 @@ if final_submission == True:
         y_test_pred = predict(sess, X_test)
     
     
-    PrintOutput(y_test_pred, os.path.join(StoreFolder, timestr + '_' + str(epochs) + '_' + str(epochs) + '_y_test.csv'))
+    PrintOutput(y_test_pred, os.path.join(StoreFolder, timestr + '_' + str(epochs) + '_' + str(batch_size) + '_' + str(params) + '_y_test.csv'))
 
 else:
     samples = len(X_train)
@@ -101,6 +108,9 @@ else:
     print('Shape of X_test:', X_test_selfeval.shape)
     print('Shape of y_test:', y_test_selfeval.shape)
 
+    if preprocessing == True:
+        X_train_selfeval, X_test_selfeval = centering(X_train_selfeval, X_test_selfeval)
+
     ##################
     # CREATE GRAPH
     ## create a graph
@@ -108,7 +118,7 @@ else:
     with g.as_default():
         tf.set_random_seed(random_seed)
         ## build the graph
-        NN.build_NN(classes, learning_rate)
+        NN.build_NN(classes, learning_rate, params)
 
     ##################
     # TRAINING & PREDICTION
@@ -127,7 +137,7 @@ else:
         y_test_pred = predict(sess, X_test)
     
     
-    PrintOutput(y_test_pred, os.path.join(StoreFolder_selfeval, timestr + '_' + str(epochs) + '_' + str(epochs) + '_y_test.csv'))
+    PrintOutput(y_test_pred, os.path.join(StoreFolder_selfeval, timestr + '_' + str(epochs) + '_' + str(batch_size) + '_' + str(params) + '_y_test.csv'))
 
 ##################
 # POSTPROCESS
@@ -138,9 +148,9 @@ plt.title('Training loss')
 plt.xlabel('Epoch')
 plt.ylabel('Average Training Loss')
 if final_submission == True:
-    plt.savefig(os.path.join(StoreFolder,timestr + '_' + str(epochs) + '_' + str(batch_size) + '_TrainLoss.jpg'))
+    plt.savefig(os.path.join(StoreFolder, timestr + '_' + str(epochs) + '_' + str(batch_size) + '_' + str(params) + '_TrainLoss.jpg'))
 else:
-    plt.savefig(os.path.join(StoreFolder_selfeval,timestr + '_' + str(epochs) + '_' + str(batch_size) + '_TrainLoss.jpg'))
+    plt.savefig(os.path.join(StoreFolder_selfeval, timestr + '_' + str(epochs) + '_' + str(batch_size) + '_' + str(params) + '_TrainLoss.jpg'))
 
 if final_submission == False:
     plt.figure(2)
@@ -149,6 +159,6 @@ if final_submission == False:
     plt.xlabel('Epoch')
     plt.ylabel('Accuracy')
     plt.legend()
-    plt.savefig(os.path.join(StoreFolder_selfeval,timestr + '_' + str(epochs) + '_' + str(batch_size) + '_TestAccuracy.jpg'))
+    plt.savefig(os.path.join(StoreFolder_selfeval, timestr + '_' + str(epochs) + '_' + str(batch_size) + '_' + str(params) + '_TestAccuracy.jpg'))
 
 print('\nJob Done!')
