@@ -63,7 +63,7 @@ def fc_layer(input_tensor, name,
 ######################################################################################
 
 class NeuralNetworks():
-    def build_NN(classes, learning_rate, params):
+    def build_NN(classes, learning_rate, params, activation):
         # Placeholders for X and y:
         tf_x = tf.placeholder(tf.float32, shape=[None, 100], name='tf_x')
         tf_y = tf.placeholder(tf.int32, shape=[None], name='tf_y')
@@ -77,30 +77,18 @@ class NeuralNetworks():
         # 1st layer: FulCon_1
         h1 = fc_layer(tf_x, name='fc_1',
                     n_output_units=params,
-                    activation_fn=tf.nn.relu)
+                    activation_fn=activation)
         # 2nd layer: FulCon_2
         h2 = fc_layer(h1, name='fc_2',
                     n_output_units=params,
-                    activation_fn=tf.nn.relu)
+                    activation_fn=activation)
         # 3nd layer: FulCon_3
         h3 = fc_layer(h2, name='fc_3',
-                    n_output_units=params/2,
-                    activation_fn=tf.nn.relu)
-        # 4th layer: FulCon_4
-        h4 = fc_layer(h3, name='fc_4',
-                    n_output_units=params/2,
-                    activation_fn=tf.nn.relu)
-        # 5th layer: FulCon_5
-        h5 = fc_layer(h4, name='fc_5',
-                    n_output_units=params/4,
-                    activation_fn=tf.nn.relu)
-        # 6th layer: FulCon_6
-        h6 = fc_layer(h5, name='fc_6',
-                    n_output_units=params/4,
-                    activation_fn=tf.nn.relu)
+                    n_output_units=params,
+                    activation_fn=tf.nn.tanh)
         # Dropout
         keep_prob = tf.placeholder(tf.float32, name='fc_keep_prob')
-        h_drop = tf.nn.dropout(h6, keep_prob=keep_prob, name='dropout_layer')
+        h_drop = tf.nn.dropout(h3, keep_prob=keep_prob, name='dropout_layer')
 
         # logits layer: FulCon_3 (linear activation)
         logits = fc_layer(h_drop, name='fc_logits',
