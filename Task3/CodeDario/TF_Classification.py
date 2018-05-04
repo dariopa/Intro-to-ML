@@ -26,6 +26,7 @@ tf.set_random_seed(random_seed)
 
 # Data Path
 CallFolder = '../Raw_Data/'
+
 StoreFolder ='Final_Results/'
 if not os.path.isdir(StoreFolder):
     os.makedirs(StoreFolder)
@@ -42,22 +43,23 @@ if not os.path.isdir(StoreFolder_selfeval):
 
 #########################################################
 # Decide whether self-evaluation or final submission
-final_submission = False
-Test_split = 9./10
-Val_split = 9./10
+final_submission = True
+Test_split = 9.5/10
+Val_split = 9.5/10
 
 # You want to preprocess the data?
 preprocessing = True
 
 # how many random samples?
-random_selection = True
-random_samples = 30500
+random_selection = False
+random_samples = 45000
 
 # Hyperparameters
-epochs = 10
-batch_size = 32
+epochs = 30
+batch_size = 254
 learning_rate = 0.001
-params = 88
+params = 380
+activation = tf.nn.relu
 
 #########################################################
 # LOAD AND SHUFFLE DATA!
@@ -113,7 +115,7 @@ if final_submission == True:
     g = tf.Graph()
     with g.as_default():
         # build the graph
-        NN.build_NN(classes, learning_rate, params)
+        NN.build_NN(classes, learning_rate, params, activation)
 
     ##################
     # TRAINING
@@ -135,7 +137,7 @@ if final_submission == True:
     g2 = tf.Graph()
     with g2.as_default():
         # build the graph
-        NN.build_NN(classes, learning_rate, params)
+        NN.build_NN(classes, learning_rate, params, activation)
 
         # Saver
         saver = tf.train.Saver()
@@ -174,7 +176,7 @@ else:
     g = tf.Graph()
     with g.as_default():
         # build the graph
-        NN.build_NN(classes, learning_rate, params)
+        NN.build_NN(classes, learning_rate, params, activation)
 
     ##################
     # TRAINING
