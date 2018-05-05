@@ -72,6 +72,13 @@ if BFinalPrediction == 0:
 classes = np.max(y_train)+1
 (X_train, y_train) = shuffle(X_train, y_train)
 
+BDownsampling = 1
+############ Class imbalance ################################
+### Downsampling ###
+if BDownsampling == 1: 
+    downsampler = preprocessing.downsampling()
+    (X_train, y_train) = downsampler.transform(X_train, y_train)
+
 if BGridSearch == 0 or BFinalPrediction == 1: 
     ##################
     # CREATE GRAPH
