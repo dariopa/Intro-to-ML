@@ -49,11 +49,9 @@ class loadfiles3: # Class which gets the files and saves them in the right varia
 
     def loadX_test(self):
         X_test = pd.read_hdf(os.path.join(self.path, "test.h5"), "test")
-        print(X_test.index.values)
         X_test = X_test.values
         # X_test = np.delete(X_test, 0, 0)
-        # X_test = np.delete(X_test, 0, 1)
-        
+        # X_test = np.delete(X_test, 0, 1)        
         return X_test
 
 class task1btransformation:
