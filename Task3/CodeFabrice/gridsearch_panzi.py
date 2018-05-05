@@ -22,23 +22,23 @@ Train_split = 8./10
 
 ## General
 BLoadData = 1
-BFinalPrediction = 1
+BFinalPrediction = 0
 
 # Hyperparameters
 random_seed = 42
 
-epochs = 90
-param = 30
+epochs = 82
+params = 84
 layers = 2
-batch_size = 32
+batch_size = 64
 learning_rate = 0.001
 
 # Gridsearch
 BGridSearch = 1
-epoch_list = [90, 100]
-param_list = [30, 36]
+epoch_list = [82, 85]
+params_list = [84, 88]
 batch_size_list = [32, 64]
-learning_rate_list = [0.001, 0.02]
+learning_rate_list = [0.001, 0.002]
 
 ## Postprocessing
 ## Score
@@ -100,26 +100,26 @@ if BGridSearch == 0 or BFinalPrediction == 1:
                                                     training_set=(X_train, y_train),
                                                     test_set=None)
 
-        np.save(os.path.join(StoreFolder, timestr + '_avg_loss_plot.npy'), avg_loss_plot)
+        # np.save(os.path.join(StoreFolder, timestr + '_avg_loss_plot.npy'), avg_loss_plot)
 
-        y_test_pred = predict(sess, X_test)
+        y_pred = predict(sess, X_test)
 
     ## Score
     if BAccuracy == 1 and BFinalPrediction == 0:
         scorer = scoring.score()
-        score = scorer.Accuracy(y_test, y_test_pred)
+        score = scorer.Accuracy(y_test, y_pred)
         print('Accuracy score is = ', repr(score))
 
 if BGridSearch == 1 and BFinalPrediction == 0: 
-    iters = len(epoch_list)*len(param_list)*len(layer_list)*len(batch_size_list)
+    iters = len(epoch_list)*len(params_list)*len(learning_rate_list)*len(batch_size_list)
     i = 0
     score_best = 0
     while i < iters:
         epochs = epoch_list[i%len(epoch_list)]
-        params = param_list[math.floor((i/len(param_list))%len(epoch_list))]
-        learning_rate= learning_rate_list[math.floor((i/(len(param_list)*len(layer_list)))%len(epoch_list))]
-        batch_size = batch_size_list[math.floor((i/(len(param_list)*len(layer_list)*len(batch_size_list)))%len(epoch_list))]
-        print('epoch = ', repr(epochs), '| param = ', repr(param), '| layers = ', repr(layers), '| batch_size = ', repr(batch_size))
+        params = params_list[math.floor((i/len(params_list))%len(epoch_list))]
+        learning_rate= learning_rate_list[math.floor((i/(len(params_list)*len(learning_rate_list)))%len(epoch_list))]
+        batch_size = batch_size_list[math.floor((i/(len(params_list)*len(learning_rate_list)*len(batch_size_list)))%len(epoch_list))]
+        print('epoch = ', repr(epochs), '| param = ', repr(params), '| learning_rate = ', repr(learning_rate), '| batch_size = ', repr(batch_size))
         ##################
         # CREATE GRAPH
         ## create a graph
@@ -137,29 +137,29 @@ if BGridSearch == 1 and BFinalPrediction == 0:
             [avg_loss_plot, test_accuracy_plot] = train(sess=sess, epochs=epochs,
                                                         random_seed=random_seed,
                                                         batch_size=batch_size,                                                                 
-                                                        training_set=(X_train_selfeval, y_train_selfeval),
-                                                        test_set=(X_test_selfeval, y_test_selfeval))
+                                                        training_set=(X_train, y_train),
+                                                        test_set=(X_test, y_test))
 
-            np.save(os.path.join(StoreFolder_selfeval, timestr + '_avg_loss_plot.npy'), avg_loss_plot)
-            np.save(os.path.join(StoreFolder_selfeval, timestr + '_test_accuracy_plot.npy'), test_accuracy_plot)
+            # np.save(os.path.join(StoreFolder_selfeval, timestr + '_avg_loss_plot.npy'), avg_loss_plot)
+            # np.save(os.path.join(StoreFolder_selfeval, timestr + '_test_accuracy_plot.npy'), test_accuracy_plot)
 
-        y_test_pred = predict(sess, X_test)
+            y_pred = predict(sess, X_test)
 
         ## Score
         if BAccuracy == 1 and BFinalPrediction == 0:
             scorer = scoring.score()
-            score = scorer.Accuracy(y_test, y_test_pred)
+            score = scorer.Accuracy(y_test, y_pred)
             print('Accuracy score is = ', repr(score))
         
         if score > score_best:
             epoch_best = epochs
-            param_best = param
-            layers_best = layers
+            param_best = params
+            learning_rate_best = learning_rate
             batch_size_best = batch_size
             score_best = score
         
         i += 1
-    print('epoch = ', repr(epoch_best), '| param = ', repr(param_best), '| layers = ', repr(layers_best), '| batch_size = ', repr(batch_size_best), '| score = ', repr(score_best))
+    print('epoch = ', repr(epoch_best), '| param = ', repr(param_best), '| layers = ', repr(learning_rate_best), '| batch_size = ', repr(batch_size_best), '| score = ', repr(score_best))
 
 ## Output Generation
 if BFinalPrediction == 1:
