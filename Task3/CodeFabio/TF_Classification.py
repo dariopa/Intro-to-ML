@@ -132,7 +132,7 @@ if final_submission == True:
     smallest_class = min(class_zero, class_one, class_two, class_three, class_four)
 
     column = smallest_class * 5 / 100
-    X_train_subsampled = [] #X_train[0] #np.zeros(1)
+    X_train_subsampled = np.array #X_train[0] #np.zeros(1)
     #print('Shape of X_train_subsampled preloop:', X_train_subsampled.shape)
     y_train_subsampled = [] #y_train[0] #np.zeros(1)
     class_counter = [0,0,0,0,0]
@@ -141,7 +141,7 @@ if final_submission == True:
             if y_train[i] == j:
                 class_counter[j] += 1
                 if class_counter[j] <= smallest_class:
-                    X_train_subsampled = np.append(X_train_subsampled, X_train[i], axis=-1)
+                    X_train_subsampled = np.append(X_train_subsampled, X_train[i])
                     y_train_subsampled = np.append(y_train_subsampled, y_train[i])
                 break
 
