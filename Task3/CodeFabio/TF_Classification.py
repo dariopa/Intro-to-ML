@@ -15,7 +15,7 @@ from utils_training import train, predict, load, save
 from utils_preprocessing import centering
 
 config = tf.ConfigProto()
-#config.gpu_options.allow_growth = True #Do not assign whole gpu memory, just use it on the go
+config.gpu_options.allow_growth = True #Do not assign whole gpu memory, just use it on the go
 config.allow_soft_placement = True #If an operation is not defined in the default device, let it execute in another.
 
 timestr = time.strftime("%Y%m%d-%H%M%S")
@@ -131,18 +131,24 @@ if final_submission == True:
 
     smallest_class = min(class_zero, class_one, class_two, class_three, class_four)
 
-    length = smallest_class * 5
-    X_train_subsampled = np.zeros(1)
-    y_train_subsampled = np.zeros(1)
+    column = smallest_class * 5 / 100
+    X_train_subsampled = [] #X_train[0] #np.zeros(1)
+    #print('Shape of X_train_subsampled preloop:', X_train_subsampled.shape)
+    y_train_subsampled = [] #y_train[0] #np.zeros(1)
     class_counter = [0,0,0,0,0]
     for i in range(len(y_train)):
         for j in range(0,4):
             if y_train[i] == j:
                 class_counter[j] += 1
                 if class_counter[j] <= smallest_class:
-                    X_train_subsampled = np.append(X_train_subsampled, X_train[i])
+                    X_train_subsampled = np.append(X_train_subsampled, X_train[i], axis=-1)
                     y_train_subsampled = np.append(y_train_subsampled, y_train[i])
                 break
+
+    print('Final Subsampled Data')
+    X_train_subsampled.reshape(-1,100)
+    print('Shape of X_train_subsampled:', X_train_subsampled.shape)
+    print('Shape of y_train_subsampled:', y_train_subsampled.shape)
 
     ##################
     # CREATE GRAPH
