@@ -10,7 +10,7 @@ CallFolder = '../Raw_Data/'
 
 #########################################################
 # LOAD DATA!
-DataTrain = np.array(pd.read_hdf(CallFolder + "train.h5", "train"))
+DataTrain = np.array(pd.read_hdf(CallFolder + "train_labeled.h5", "train"))
 X_train = DataTrain[:, 1:]
 y_train = DataTrain[:, 0]
 

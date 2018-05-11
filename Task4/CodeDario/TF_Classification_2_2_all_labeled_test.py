@@ -26,6 +26,7 @@ tf.set_random_seed(random_seed)
 
 # Data Path
 CallFolder = '../Raw_Data/'
+CallFolder_new_data = 'All_labeled_data/'
 
 StoreFolder ='Final_Results/'
 if not os.path.isdir(StoreFolder):
@@ -50,49 +51,30 @@ Val_split = 9.5/10
 # You want to preprocess the data?
 preprocessing = True
 
-# how many random samples?
-random_selection = False
-random_samples = 20000
-
 # Hyperparameters
-epochs = 30
-batch_size = 254
-learning_rate = 0.001
-params = 380
+epochs = 20
+batch_size = 128
+learning_rate = 0.0002
+params = 800
 activation = tf.nn.relu
 
-# At which sample starts the prediction?
+# At which sample starts the prediction for the test data?
 sample_number = 30000
 
 #########################################################
 # LOAD AND SHUFFLE DATA!
-DataTrain = np.array(pd.read_hdf(CallFolder + "train.h5", "train"))
-X_train = DataTrain[:, 1:]
-y_train = DataTrain[:, 0]
+X_train = np.load(os.path.join(CallFolder_new_data, 'X_train.npy'))
+features = X_train.shape[1]
+y_train = np.load(os.path.join(CallFolder_new_data, 'y_train.npy'))
 classes = np.max(y_train) + 1
 
 X_test = np.array(pd.read_hdf(CallFolder + "test.h5", "test"))
 print('Unpreprocessed Data')
-print('X_train:   ', X_train.shape, end=' ||  ')
+print('X_train_labeled:   ', X_train.shape, end=' ||  ')
 print('y_train:   ', y_train.shape)
 print('X_test:    ', X_test.shape, '\n')
 
 (X_train, y_train) = shuffle(X_train, y_train)
-
-#########################################################
-# RANDOMSELECTOR
-if random_selection == True:
-    samples = len(X_train)
-    random_list = []
-    for i in range(random_samples):
-        random_list.append(random.randint(0, samples-1))
-
-    X_train = X_train[random_list, :]
-    y_train = y_train[random_list]
-    print('Randomly selected data')
-    print('X_train:   ', X_train.shape, end=' ||  ')
-    print('y_train:   ', y_train.shape)
-    print('X_test:    ', X_test.shape, '\n')
 
 #########################################################
 # FINAL DATA
@@ -118,7 +100,7 @@ if final_submission == True:
     g = tf.Graph()
     with g.as_default():
         # build the graph
-        NN.build_NN(classes, learning_rate, params, activation)
+        NN.build_NN(features, classes, learning_rate, params, activation)
 
     ##################
     # TRAINING
@@ -140,7 +122,7 @@ if final_submission == True:
     g2 = tf.Graph()
     with g2.as_default():
         # build the graph
-        NN.build_NN(classes, learning_rate, params, activation)
+        NN.build_NN(features, classes, learning_rate, params, activation)
 
         # Saver
         saver = tf.train.Saver()
@@ -179,7 +161,7 @@ else:
     g = tf.Graph()
     with g.as_default():
         # build the graph
-        NN.build_NN(classes, learning_rate, params, activation)
+        NN.build_NN(features, classes, learning_rate, params, activation)
 
     ##################
     # TRAINING

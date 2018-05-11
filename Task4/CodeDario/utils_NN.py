@@ -63,9 +63,9 @@ def fc_layer(input_tensor, name,
 ######################################################################################
 
 class NeuralNetworks():
-    def build_NN(classes, learning_rate, params, activation):
+    def build_NN(features, classes, learning_rate, params, activation):
         # Placeholders for X and y:
-        tf_x = tf.placeholder(tf.float32, shape=[None, 100], name='tf_x')
+        tf_x = tf.placeholder(tf.float32, shape=[None, features], name='tf_x')
         tf_y = tf.placeholder(tf.int32, shape=[None], name='tf_y')
 
         ## One-hot encoding:
@@ -85,7 +85,7 @@ class NeuralNetworks():
         # 3nd layer: FulCon_3
         h3 = fc_layer(h2, name='fc_3',
                     n_output_units=params,
-                    activation_fn=tf.nn.tanh)
+                    activation_fn=activation)
         # Dropout
         keep_prob = tf.placeholder(tf.float32, name='fc_keep_prob')
         h_drop = tf.nn.dropout(h3, keep_prob=keep_prob, name='dropout_layer')
