@@ -61,6 +61,9 @@ learning_rate = 0.001
 params = 380
 activation = tf.nn.relu
 
+# At which sample starts the prediction?
+sample_number = 30000
+
 #########################################################
 # LOAD AND SHUFFLE DATA!
 DataTrain = np.array(pd.read_hdf(CallFolder + "train.h5", "train"))
@@ -149,7 +152,7 @@ if final_submission == True:
         load(saver=saver, sess=sess, epoch=epoch, path=StoreFolder_Model)
         y_test_pred = predict(sess, X_test)
 
-    PrintOutput(y_test_pred, os.path.join(StoreFolder, timestr + '_' + str(epochs) + '_' + str(batch_size) + '_' + str(params) + '_y_test.csv'))
+    PrintOutput(y_test_pred, sample_number, os.path.join(StoreFolder, timestr + '_' + str(epochs) + '_' + str(batch_size) + '_' + str(params) + '_y_test.csv'))
 
 #################################################################################################
 #################################################################################################
