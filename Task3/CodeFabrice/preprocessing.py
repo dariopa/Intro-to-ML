@@ -82,35 +82,54 @@ class downsampling:
         shape = X.shape
         NSamples = shape[0]
         NFeatures = shape[1]
-        NClasses = np.max(y)+1
-        NSamplesPerClass = np.empty([NClasses,1])
+        NClasses = 5
+        NSamplesPerClass = np.zeros([NClasses,1])
         for i in range(0, NSamples):
-            if y(i) == 0:
-                NSamplesPerClass[0] =  NSamplesPerClass[0] + 1
-            elif y(i) == 1:
-                NSamplesPerClass[1] =  NSamplesPerClass[1] + 1
-            elif y(i) == 2:
-                NSamplesPerClass[2] =  NSamplesPerClass[2] + 1
-            elif y(i) == 3:
-                NSamplesPerClass[3] =  NSamplesPerClass[3] + 1
-            elif y(i) == 4:
-                NSamplesPerClass[4] =  NSamplesPerClass[4] + 1
-        NSamplesMin = np.amin(NSamplesPerClass)
-        NSamplesPerClass = np.empty([NClasses,1])
+            if y[i] == 0:
+                NSamplesPerClass[0] += 1
+            elif y[i] == 1:
+                NSamplesPerClass[1] += 1
+            elif y[i] == 2:
+                NSamplesPerClass[2] += 1
+            elif y[i] == 3:
+                NSamplesPerClass[3] += 1
+            elif y[i] == 4:
+                NSamplesPerClass[4] += 1
+        print(NSamplesPerClass)
+        NSamplesMin = int(np.amin(NSamplesPerClass))
+        print(NSamplesMin)
+        NSamplesPerClass = np.zeros([NClasses, 1])
+        X_new = np.zeros([NSamplesMin*NClasses, NFeatures])
+        y_new = np.zeros([NSamplesMin*NClasses, 1])
+        k = 0
         for i in range(0, NSamples):
-            if y(i) == 0 and NSamplesPerClass[0] < NSamplesMin:
-                X_new = np.append(X_new, X(i))
-                y_new = np.append(y_new, y(i))
-            elif y(i) == 1 and NSamplesPerClass[1] < NSamplesMin:
-                X_new = np.append(X_new, X(i))
-                y_new = np.append(y_new, y(i))
-            elif y(i) == 2 and NSamplesPerClass[2] < NSamplesMin:
-                X_new = np.append(X_new, X(i))
-                y_new = np.append(y_new, y(i))
-            elif y(i) == 3 and NSamplesPerClass[3] < NSamplesMin:
-                X_new = np.append(X_new, X(i))
-                y_new = np.append(y_new, y(i))
-            elif y(i) == 4 and NSamplesPerClass[4] < NSamplesMin:
-                X_new = np.append(X_new, X(i))
-                y_new = np.append(y_new, y(i))
+            if y[i] == 0 and NSamplesPerClass[0] < NSamplesMin:
+                X_new[k,:] = X[i]
+                y_new[k] = y[i]
+                NSamplesPerClass[0] += 1
+                k += 1
+            elif y[i] == 1 and NSamplesPerClass[1] < NSamplesMin:
+                X_new[k,:] = X[i]
+                y_new[k] = y[i]
+                NSamplesPerClass[1] += 1
+                k += 1 
+            elif y[i] == 2 and NSamplesPerClass[2] < NSamplesMin:
+                X_new[k,:] = X[i]
+                y_new[k] = y[i]
+                NSamplesPerClass[2] += 1
+                k += 1
+            elif y[i] == 3 and NSamplesPerClass[3] < NSamplesMin:
+                X_new[k,:] = X[i]
+                y_new[k] = y[i]
+                NSamplesPerClass[3] += 1
+                k += 1
+            elif y[i] == 4 and NSamplesPerClass[4] < NSamplesMin:
+                X_new[k,:] = X[i]
+                y_new[k] = y[i]
+                NSamplesPerClass[4] += 1
+                k += 1
+        print(NSamplesPerClass)
+        print(X_new.shape)
+        print(y_new.shape)
+        y_new = np.squeeze(y_new)
         return (X_new, y_new)

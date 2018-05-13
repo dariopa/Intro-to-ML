@@ -18,27 +18,27 @@ import math
 ############################################ Configuration ###################################################
 # Decide whether self-evaluation or final submission
 final_submission = False
-Train_split = 8./10
+Train_split = 7./10
 
 ## General
 BLoadData = 1
-BFinalPrediction = 0
+BFinalPrediction = 1
 
 # Hyperparameters
 random_seed = 42
 
-epochs = 82
-params = 84
+epochs = 90
+params = 200
 layers = 2
-batch_size = 64
-learning_rate = 0.001
+batch_size = 32
+learning_rate = 0.0005
 
 # Gridsearch
-BGridSearch = 1
-epoch_list = [82, 85]
-params_list = [84, 88]
-batch_size_list = [32, 64]
-learning_rate_list = [0.001, 0.002]
+BGridSearch = 0
+epoch_list = [30, 50, 90]
+params_list = [100, 200, 300]
+batch_size_list = [16, 32, 64]
+learning_rate_list = [0.0005, 0.001, 0.002]
 
 ## Postprocessing
 ## Score
@@ -71,14 +71,21 @@ if BFinalPrediction == 0:
 
 classes = np.max(y_train)+1
 (X_train, y_train) = shuffle(X_train, y_train)
-
+print("before")
+print(X_train.shape)
+print(y_train.shape)
+print(y_train)
+print("after")
 BDownsampling = 1
-############ Class imbalance ################################
+############ Class IB ################################
 ### Downsampling ###
 if BDownsampling == 1: 
     downsampler = preprocessing.downsampling()
     (X_train, y_train) = downsampler.transform(X_train, y_train)
 
+print(X_train.shape)
+print(y_train.shape)
+print(y_train)
 if BGridSearch == 0 or BFinalPrediction == 1: 
     ##################
     # CREATE GRAPH
