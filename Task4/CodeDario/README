@@ -1,2 +1,12 @@
-Dario's code
+Either run: 
 
+TF_Classification_labeled_test.py
+
+-> this will just predict the results with the labeled data. 
+
+or
+
+1) TF_Classification_labeled_unlabeled.py
+2) TF_Classification_all_labeled_test.py
+
+-> this will first predict the results of the unlabeled data, then a new training dataset is created and the real test data is predicted. 
