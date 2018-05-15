@@ -70,7 +70,7 @@ features = X_train_labeled.shape[1]
 y_train_labeled = DataTrain[:, 0]
 classes = np.max(y_train_labeled) + 1
 
-X_test = np.array(pd.read_hdf(CallFolder + "train_unlabeled.h5", "train"))
+X_test = np.array(pd.read_hdf(CallFolder + "train_unlabeled.h5", "train")) # X_test = unlabeled data
 print('Unpreprocessed Data')
 print('X_train_labeled:   ', X_train_labeled.shape, end=' ||  ')
 print('y_train:   ', y_train_labeled.shape)
