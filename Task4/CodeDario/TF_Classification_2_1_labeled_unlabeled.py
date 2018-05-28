@@ -1,4 +1,5 @@
 import os
+os.environ["CUDA_VISIBLE_DEVICES"] = os.environ['SGE_GPU']
 import shutil
 import numpy as np
 import tensorflow as tf
@@ -53,7 +54,7 @@ Val_split = 9.5/10
 preprocessing = True
 
 # Hyperparameters
-epochs = 1
+epochs = 80
 batch_size = 128
 learning_rate = 0.0002
 params = 800
