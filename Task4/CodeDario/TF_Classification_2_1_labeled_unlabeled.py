@@ -104,7 +104,7 @@ print('Shape of y_valid:', y_valid.shape, '\n')
 print('Shape of X_train - labeled:', X_train.shape)
 print('Shape of X_test - unlabeled:', X_test.shape)
 
-for i in range (len(X_test)):
+for i in range (0, len(X_test), nr_pred):
 
     ##################
     # CREATE GRAPH
