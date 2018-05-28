@@ -62,7 +62,7 @@ activation = tf.nn.relu
 sample_number = 30000
 
 # how many test samples do you want to predict simultaneously?
-nr_pred = 1500
+nr_pred = 40
 
 #########################################################
 # LOAD AND SHUFFLE DATA!
