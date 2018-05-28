@@ -55,14 +55,14 @@ preprocessing = True
 epochs = 60
 batch_size = 128
 learning_rate = 0.0002
-params = 800
+params = 1200
 activation = tf.nn.relu
 
 # At which sample starts the prediction for the test data?
 sample_number = 30000
 
 # how many test samples do you want to predict simultaneously?
-nr_pred = 50
+nr_pred = 200
 
 #########################################################
 # LOAD AND SHUFFLE DATA!
