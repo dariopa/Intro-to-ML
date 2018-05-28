@@ -53,7 +53,7 @@ Val_split = 9.5/10
 preprocessing = True
 
 # Hyperparameters
-epochs = 70
+epochs = 1
 batch_size = 128
 learning_rate = 0.0002
 params = 800
@@ -69,11 +69,11 @@ X_train_labeled = DataTrain[:, 1:]
 features = X_train_labeled.shape[1]
 y_train_labeled = DataTrain[:, 0]
 classes = np.max(y_train_labeled) + 1
-
-X_test = np.array(pd.read_hdf(CallFolder + "train_unlabeled.h5", "train")) # X_test = unlabeled data
 print('Unpreprocessed Data')
 print('X_train_labeled:   ', X_train_labeled.shape, end=' ||  ')
 print('y_train:   ', y_train_labeled.shape)
+
+X_test = np.array(pd.read_hdf(CallFolder + "train_unlabeled.h5", "train")) # X_test = unlabeled data
 print('X_test:    ', X_test.shape, '\n')
 
 (X_train_labeled, y_train_labeled) = shuffle(X_train_labeled, y_train_labeled)
@@ -101,8 +101,7 @@ print('Shape of y_valid:', y_valid.shape, '\n')
 print('Shape of X_train - labeled:', X_train.shape)
 print('Shape of X_test - unlabeled:', X_test.shape)
 
-nrOfPtsToLabel = len(X_test)
-for i in range (1,nrOfPtsToLabel):
+for i in range (len(X_test)):
 
     ##################
     # CREATE GRAPH
@@ -140,17 +139,19 @@ for i in range (1,nrOfPtsToLabel):
     with tf.Session(graph=g2, config=config) as sess:
         epoch = np.argmax(valid_accuracy_plot) + 1
         load(saver=saver, sess=sess, epoch=epoch, path=StoreFolder_Model)
-        y_test_pred = predict(sess, X_test)
-
+        y_test_pred = predict(sess, X_test[0:1,:])
     # Add newest predicted point to the NN
-    
-    dummy = np.empty([100,1])
-    
-    np.concatenate(X_train_labeled, X_test[:,0])
-    np.delete(X_test,0,0)      
-    np.concatenate(y_train_labeled, y_test_pred)
+    print('Before concatenating X_train: ', X_train.shape)
+    X_train = np.concatenate((X_train, X_test[0:1,:]), axis=0)
+    print('After concatenating X_train: ', X_train.shape)
+    print('Before concatenating X_test: ',X_test.shape)
+    X_test = np.delete(X_test,0,0)
+    print('After concatenating X_test: ',X_test.shape)   
+    y_train_labeled = np.concatenate((y_train_labeled, y_test_pred), axis=0)
+    print('Shape of y_train_labeled: ', y_train_labeled.shape)
+
+    del g2
 
 ##################
 #  CREATE NEW DATASET
-y_train = np.concatenate((y_train_labeled, y_test_pred), axis=0)
-np.save(os.path.join(StoreFolder_all_labeled, 'y_train.npy'), y_train)
+np.save(os.path.join(StoreFolder_all_labeled, 'y_train.npy'), y_train_labeled)
