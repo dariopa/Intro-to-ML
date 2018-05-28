@@ -54,7 +54,7 @@ Val_split = 9.5/10
 preprocessing = True
 
 # Hyperparameters
-epochs = 20
+epochs = 10
 batch_size = 32
 learning_rate = 0.0002
 params = 2000
