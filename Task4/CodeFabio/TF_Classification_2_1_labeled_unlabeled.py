@@ -150,6 +150,7 @@ for i in range (0, len(X_test), nr_pred):
     X_test = X_test[nr_pred:, :]
     print('After concatenating X_test: ',X_test.shape)   
     y_train = np.concatenate((y_train, y_test_pred), axis=0)
+    y_train = np.concatenate((y_train, y_test_pred), axis=0)
     print('Shape of y_train_labeled: ', y_train.shape)
 
     del g2

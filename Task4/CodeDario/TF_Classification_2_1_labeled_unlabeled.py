@@ -1,5 +1,5 @@
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = os.environ['SGE_GPU']
+# os.environ["CUDA_VISIBLE_DEVICES"] = os.environ['SGE_GPU']
 import shutil
 import numpy as np
 import tensorflow as tf
@@ -52,7 +52,7 @@ Val_split = 9.5/10
 preprocessing = True
 
 # Hyperparameters
-epochs = 80
+epochs = 2
 batch_size = 128
 learning_rate = 0.0002
 params = 800
@@ -117,6 +117,8 @@ for i in range (0, len(X_test), nr_pred):
     print()
     print('Training... ')
     with tf.Session(graph=g, config=config) as sess:
+        print(X_train.shape)
+        print(y_train.shape)
         [avg_loss_plot, valid_accuracy_plot, test_accuracy_plot] = train(path=StoreFolder_Model, sess=sess, epochs=epochs,
                                                                             random_seed=random_seed,
                                                                             batch_size=batch_size,                                                                 
@@ -143,17 +145,19 @@ for i in range (0, len(X_test), nr_pred):
         load(saver=saver, sess=sess, epoch=epoch, path=StoreFolder_Model)
         y_test_pred = predict(sess, X_test[0:nr_pred,:])
     # Add newest predicted point to the NN
-    print('Before concatenating X_train: ', X_train.shape)
+    # print('Before concatenating X_train: ', X_train.shape)
     X_train = np.concatenate((X_train, X_test[0:nr_pred,:]), axis=0)
-    print('After concatenating X_train: ', X_train.shape)
-    print('Before concatenating X_test: ',X_test.shape)
+    # print('After concatenating X_train: ', X_train.shape)
+    # print('Before concatenating X_test: ',X_test.shape)
     X_test = X_test[nr_pred:, :]
-    print('After concatenating X_test: ',X_test.shape)   
+    # print('After concatenating X_test: ',X_test.shape)   
     y_train_labeled = np.concatenate((y_train_labeled, y_test_pred), axis=0)
-    print('Shape of y_train_labeled: ', y_train_labeled.shape)
+    y_train = np.concatenate((y_train, y_test_pred), axis=0)
+    # print('Shape of y_train_labeled: ', y_train_labeled.shape)
 
     del g2
 
 ##################
 #  CREATE NEW DATASET
 np.save(os.path.join(StoreFolder_all_labeled, 'y_train.npy'), y_train_labeled)
+print('Job terminated!')
