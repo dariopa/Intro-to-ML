@@ -132,21 +132,23 @@ if final_submission == True:
     smallest_class = min(class_zero, class_one, class_two, class_three, class_four)
 
     column = smallest_class * 5 / 100
-    X_train_subsampled = np.array #X_train[0] #np.zeros(1)
-    #print('Shape of X_train_subsampled preloop:', X_train_subsampled.shape)
-    y_train_subsampled = [] #y_train[0] #np.zeros(1)
+    X_train_subsampled = X_train[0,:] #np.zeros(1)
+    print('Shape of X_train_subsampled preloop:', X_train_subsampled.shape)
+    y_train_subsampled = y_train[0] #np.zeros(1)
     class_counter = [0,0,0,0,0]
     for i in range(len(y_train)):
         for j in range(0,4):
             if y_train[i] == j:
                 class_counter[j] += 1
                 if class_counter[j] <= smallest_class:
-                    X_train_subsampled = np.append(X_train_subsampled, X_train[i])
-                    y_train_subsampled = np.append(y_train_subsampled, y_train[i])
+                    print('Shape of X_train_subsampled in loop 1st:', X_train_subsampled.shape)
+                    X_train_subsampled = np.hstack(X_train_subsampled, X_train[i,:])
+                    print('Shape of X_train_subsampled in loop 2nd:', X_train_subsampled.shape)
+                    y_train_subsampled = np.vstack(y_train_subsampled, y_train[i])
                 break
 
     print('Final Subsampled Data')
-    X_train_subsampled.reshape(-1,100)
+    #X_train_subsampled.reshape(-1,100)
     print('Shape of X_train_subsampled:', X_train_subsampled.shape)
     print('Shape of y_train_subsampled:', y_train_subsampled.shape)
 
