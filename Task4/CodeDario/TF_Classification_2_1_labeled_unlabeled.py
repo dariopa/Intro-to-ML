@@ -6,7 +6,6 @@ import tensorflow as tf
 import time
 import pandas as pd
 import random
-import matplotlib.pyplot as plt
 from sklearn.utils import shuffle
 from sklearn.preprocessing import normalize
 from utils_output import PrintOutput
