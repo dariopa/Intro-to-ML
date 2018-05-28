@@ -1,5 +1,5 @@
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = os.environ['SGE_GPU']
+# os.environ["CUDA_VISIBLE_DEVICES"] = os.environ['SGE_GPU']
 import shutil
 import numpy as np
 import tensorflow as tf
@@ -52,7 +52,7 @@ Val_split = 9.5/10
 preprocessing = True
 
 # Hyperparameters
-epochs = 80
+epochs = 1
 batch_size = 128
 learning_rate = 0.0002
 params = 800
@@ -60,6 +60,10 @@ activation = tf.nn.relu
 
 # At which sample starts the prediction for the test data?
 sample_number = 30000
+
+# how many test samples do you want to predict simultaneously?
+
+nr_pred = 20
 
 #########################################################
 # LOAD AND SHUFFLE DATA!
@@ -138,13 +142,13 @@ for i in range (len(X_test)):
     with tf.Session(graph=g2, config=config) as sess:
         epoch = np.argmax(valid_accuracy_plot) + 1
         load(saver=saver, sess=sess, epoch=epoch, path=StoreFolder_Model)
-        y_test_pred = predict(sess, X_test[0:1,:])
+        y_test_pred = predict(sess, X_test[0:nr_pred,:])
     # Add newest predicted point to the NN
     print('Before concatenating X_train: ', X_train.shape)
-    X_train = np.concatenate((X_train, X_test[0:1,:]), axis=0)
+    X_train = np.concatenate((X_train, X_test[0:nr_pred,:]), axis=0)
     print('After concatenating X_train: ', X_train.shape)
     print('Before concatenating X_test: ',X_test.shape)
-    X_test = np.delete(X_test,0,0)
+    X_test = X_test[nr_pred:, :]
     print('After concatenating X_test: ',X_test.shape)   
     y_train_labeled = np.concatenate((y_train_labeled, y_test_pred), axis=0)
     print('Shape of y_train_labeled: ', y_train_labeled.shape)
