@@ -58,7 +58,7 @@ epochs = 20
 batch_size = 32
 learning_rate = 0.0002
 params = 2000
-activation = tf.nn.tanh
+activation = tf.nn.relu
 
 # At which sample starts the prediction for the test data?
 sample_number = 30000
