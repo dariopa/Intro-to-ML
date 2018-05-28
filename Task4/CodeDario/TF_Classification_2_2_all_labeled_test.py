@@ -55,9 +55,9 @@ preprocessing = True
 
 # Hyperparameters
 epochs = 40
-batch_size = 128
+batch_size = 32
 learning_rate = 0.0002
-params = 1200
+params = 3000
 activation = tf.nn.relu
 
 # At which sample starts the prediction for the test data?
