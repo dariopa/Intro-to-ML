@@ -149,8 +149,8 @@ for i in range (0, len(X_test), nr_pred):
     print('Before concatenating X_test: ',X_test.shape)
     X_test = X_test[nr_pred:, :]
     print('After concatenating X_test: ',X_test.shape)   
-    y_train_labeled = np.concatenate((y_train_labeled, y_test_pred), axis=0)
-    print('Shape of y_train_labeled: ', y_train_labeled.shape)
+    y_train = np.concatenate((y_train, y_test_pred), axis=0)
+    print('Shape of y_train_labeled: ', y_train.shape)
 
     del g2
 
