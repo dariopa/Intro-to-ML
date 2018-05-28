@@ -52,8 +52,8 @@ Val_split = 9.5/10
 preprocessing = True
 
 # Hyperparameters
-epochs = 20
-batch_size = 32
+epochs = 40
+batch_size = 64
 learning_rate = 0.0002
 params = 2000
 activation = tf.nn.relu
@@ -62,7 +62,7 @@ activation = tf.nn.relu
 sample_number = 30000
 
 # how many test samples do you want to predict simultaneously?
-nr_pred = 40
+nr_pred = 50
 
 #########################################################
 # LOAD AND SHUFFLE DATA!

@@ -54,8 +54,8 @@ Val_split = 9.5/10
 preprocessing = True
 
 # Hyperparameters
-epochs = 10
-batch_size = 32
+epochs = 40
+batch_size = 64
 learning_rate = 0.0002
 params = 2000
 activation = tf.nn.relu
