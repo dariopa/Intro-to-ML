@@ -15,7 +15,7 @@ from utils_training import train, predict, load, save
 from utils_preprocessing import centering
 
 config = tf.ConfigProto()
-#config.gpu_options.allow_growth = True #Do not assign whole gpu memory, just use it on the go
+config.gpu_options.allow_growth = True #Do not assign whole gpu memory, just use it on the go
 config.allow_soft_placement = True #If an operation is not defined in the default device, let it execute in another.
 
 timestr = time.strftime("%Y%m%d-%H%M%S")
@@ -53,7 +53,7 @@ Val_split = 9.5/10
 preprocessing = True
 
 # Hyperparameters
-epochs = 1
+epochs = 70
 batch_size = 128
 learning_rate = 0.0002
 params = 800
@@ -69,11 +69,11 @@ X_train_labeled = DataTrain[:, 1:]
 features = X_train_labeled.shape[1]
 y_train_labeled = DataTrain[:, 0]
 classes = np.max(y_train_labeled) + 1
+
+X_test = np.array(pd.read_hdf(CallFolder + "train_unlabeled.h5", "train")) # X_test = unlabeled data
 print('Unpreprocessed Data')
 print('X_train_labeled:   ', X_train_labeled.shape, end=' ||  ')
 print('y_train:   ', y_train_labeled.shape)
-
-X_test = np.array(pd.read_hdf(CallFolder + "train_unlabeled.h5", "train")) # X_test = unlabeled data
 print('X_test:    ', X_test.shape, '\n')
 
 (X_train_labeled, y_train_labeled) = shuffle(X_train_labeled, y_train_labeled)
@@ -98,60 +98,45 @@ print('Shape of y_train:', y_train.shape)
 print('Shape of X_valid:', X_valid.shape)
 print('Shape of y_valid:', y_valid.shape, '\n')
 
-print('Shape of X_train - labeled:', X_train.shape)
-print('Shape of X_test - unlabeled:', X_test.shape)
+##################
+# CREATE GRAPH
+g = tf.Graph()
+with g.as_default():
+    # build the graph
+    NN.build_NN(features, classes, learning_rate, params, activation)
 
-for i in range (len(X_test)):
+##################
+# TRAINING
+print()
+print('Training... ')
+with tf.Session(graph=g, config=config) as sess:
+    [avg_loss_plot, valid_accuracy_plot, test_accuracy_plot] = train(path=StoreFolder_Model, sess=sess, epochs=epochs,
+                                                                        random_seed=random_seed,
+                                                                        batch_size=batch_size,                                                                 
+                                                                        training_set=(X_train, y_train),
+                                                                        validation_set=(X_valid, y_valid),
+                                                                        test_set=None)
 
-    ##################
-    # CREATE GRAPH
-    g = tf.Graph()
-    with g.as_default():
-        # build the graph
-        NN.build_NN(features, classes, learning_rate, params, activation)
+del g
 
-    ##################
-    # TRAINING
-    print()
-    print('Training... ')
-    with tf.Session(graph=g, config=config) as sess:
-        [avg_loss_plot, valid_accuracy_plot, test_accuracy_plot] = train(path=StoreFolder_Model, sess=sess, epochs=epochs,
-                                                                            random_seed=random_seed,
-                                                                            batch_size=batch_size,                                                                 
-                                                                            training_set=(X_train, y_train),
-                                                                            validation_set=(X_valid, y_valid),
-                                                                            test_set=None)
+##################
+# CREATE GRAPH
+g2 = tf.Graph()
+with g2.as_default():
+    # build the graph
+    NN.build_NN(features, classes, learning_rate, params, activation)
 
-    del g
+    # Saver
+    saver = tf.train.Saver()
 
-    ##################
-    # CREATE GRAPH
-    g2 = tf.Graph()
-    with g2.as_default():
-        # build the graph
-        NN.build_NN(features, classes, learning_rate, params, activation)
-
-        # Saver
-        saver = tf.train.Saver()
-
-    ##################
-    # PREDICTION
-    with tf.Session(graph=g2, config=config) as sess:
-        epoch = np.argmax(valid_accuracy_plot) + 1
-        load(saver=saver, sess=sess, epoch=epoch, path=StoreFolder_Model)
-        y_test_pred = predict(sess, X_test[0:1,:])
-    # Add newest predicted point to the NN
-    print('Before concatenating X_train: ', X_train.shape)
-    X_train = np.concatenate((X_train, X_test[0:1,:]), axis=0)
-    print('After concatenating X_train: ', X_train.shape)
-    print('Before concatenating X_test: ',X_test.shape)
-    X_test = np.delete(X_test,0,0)
-    print('After concatenating X_test: ',X_test.shape)   
-    y_train_labeled = np.concatenate((y_train_labeled, y_test_pred), axis=0)
-    print('Shape of y_train_labeled: ', y_train_labeled.shape)
-
-    del g2
+##################
+# PREDICTION
+with tf.Session(graph=g2, config=config) as sess:
+    epoch = np.argmax(valid_accuracy_plot) + 1
+    load(saver=saver, sess=sess, epoch=epoch, path=StoreFolder_Model)
+    y_test_pred = predict(sess, X_test)
 
 ##################
 #  CREATE NEW DATASET
-np.save(os.path.join(StoreFolder_all_labeled, 'y_train.npy'), y_train_labeled)
+y_train = np.concatenate((y_train_labeled, y_test_pred), axis=0)
+np.save(os.path.join(StoreFolder_all_labeled, 'y_train.npy'), y_train)
