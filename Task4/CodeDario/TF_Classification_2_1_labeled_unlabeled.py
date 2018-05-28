@@ -63,7 +63,7 @@ sample_number = 30000
 
 # how many test samples do you want to predict simultaneously?
 
-nr_pred = 20
+nr_pred = 3000
 
 #########################################################
 # LOAD AND SHUFFLE DATA!
