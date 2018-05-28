@@ -14,7 +14,7 @@ from utils_training import train, predict, load, save
 from utils_preprocessing import centering
 
 config = tf.ConfigProto()
-#config.gpu_options.allow_growth = True #Do not assign whole gpu memory, just use it on the go
+config.gpu_options.allow_growth = True #Do not assign whole gpu memory, just use it on the go
 config.allow_soft_placement = True #If an operation is not defined in the default device, let it execute in another.
 
 timestr = time.strftime("%Y%m%d-%H%M%S")
