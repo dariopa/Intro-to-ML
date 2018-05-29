@@ -66,7 +66,6 @@ print('Class 9:   ', class_nine)
 
 #########################################################
 print(X_train)
-print('\n', X_test)
 
 # PLOTS
 for q in range(10):
