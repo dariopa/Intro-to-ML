@@ -15,8 +15,6 @@ DataTrain = np.array(pd.read_hdf(CallFolder + "train_labeled.h5", "train"))
 X_train = DataTrain[:, 1:]
 y_train = DataTrain[:, 0]
 
-X_test = np.array(pd.read_hdf(CallFolder + "train_unlabeled.h5", "train"))
-
 print('Randomly selected data')
 print('X_train:   ', X_train.shape, end=' ||  ')
 print('y_train:   ', y_train.shape)
