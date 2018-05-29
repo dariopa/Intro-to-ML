@@ -65,6 +65,10 @@ print('Class 8:   ', class_eight)
 print('Class 9:   ', class_nine)
 
 #########################################################
+mean_vec = np.full((1,X_train.shape[1]),0.)
+for a in range(X_train.shape[1]):
+    mean_vec[0,a] = np.mean(X_train[:, a])
+X_train = X_train - mean_vec
 print(X_train)
 
 # PLOTS
