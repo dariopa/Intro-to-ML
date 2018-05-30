@@ -52,8 +52,8 @@ if not os.path.isdir(StoreFolder_selfeval):
 final_submission = True
 
 # Hyperparameters
-epochs = 80
-param = 10000
+epochs = 10
+param = 5000
 layers = 3
 batch_size = 128
 
