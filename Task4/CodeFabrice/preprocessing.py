@@ -54,7 +54,7 @@ class loadfiles3: # Class which gets the files and saves them in the right varia
         # X_test = np.delete(X_test, 0, 1)        
         return X_test
 
-class loadfiles3: # Class which gets the files and saves them in the right variables
+class loadfiles4: # Class which gets the files and saves them in the right variables
     def __init__(self, path):
         self.path = path
    
@@ -75,13 +75,13 @@ class loadfiles3: # Class which gets the files and saves them in the right varia
         y_train = DataTrain[:, 0]
         return y_train
 
-    def loadX_train_labeled(self):
+    def loadX_train_unlabeled(self):
         DataTrain = pd.read_hdf(os.path.join(self.path, "train_unlabeled.h5"), "train")
         DataTrain = DataTrain.values
         # DataTrain = np.delete(DataTrain, 0, 0)
         # DataTrain = np.delete(DataTrain, 0, 1)
-        X_train_unlabeled = DataTrain[:, 1:]
-        print(X_train_unlabeled)
+        X_train_unlabeled = DataTrain[:, 0:]
+        # print(X_train_unlabeled)
         return X_train_unlabeled
 
     def loadX_test(self):
