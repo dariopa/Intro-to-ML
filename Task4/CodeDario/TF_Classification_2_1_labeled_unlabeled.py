@@ -52,7 +52,7 @@ Val_split = 9.5/10
 preprocessing = True
 
 # Hyperparameters
-epochs = 40
+epochs = 2
 batch_size = 64
 learning_rate = 0.0002
 params = 2000
@@ -62,7 +62,7 @@ activation = tf.nn.relu
 sample_number = 30000
 
 # how many test samples do you want to predict simultaneously?
-nr_pred = 50
+nr_pred = 3000
 
 #########################################################
 # LOAD AND SHUFFLE DATA!
@@ -103,7 +103,7 @@ print('Shape of y_valid:', y_valid.shape, '\n')
 print('Shape of X_train - labeled:', X_train.shape)
 print('Shape of X_test - unlabeled:', X_test.shape)
 
-for i in range (0, len(X_test), nr_pred):
+for i in range (0, len(X_test)+1, nr_pred):
 
     ##################
     # CREATE GRAPH
