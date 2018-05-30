@@ -1,5 +1,5 @@
 import os
-# os.environ["CUDA_VISIBLE_DEVICES"] = os.environ['SGE_GPU']
+os.environ["CUDA_VISIBLE_DEVICES"] = os.environ['SGE_GPU']
 import shutil
 import numpy as np
 import pandas as pd
@@ -7,7 +7,7 @@ import tensorflow as tf
 import time
 import random
 import matplotlib
-# matplotlib.use('PS') 
+matplotlib.use('PS') 
 from matplotlib.pyplot import imshow
 import matplotlib.pyplot as plt
 import tensorflow.contrib.keras as keras
@@ -54,9 +54,9 @@ final_submission = True
 Train_split = 9.5/10
 
 # Hyperparameters
-epochs = 100
-param = 30
-layers = 20
+epochs = 200
+param = 800
+layers = 100
 batch_size = 128
 
 # At which sample starts the prediction for the test data?
