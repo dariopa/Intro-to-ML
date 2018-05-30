@@ -71,8 +71,8 @@ y_train_onehot = keras.utils.to_categorical(y_train)
 print('First 3 labels: ', y_train[:3])
 print('First 3 onehot labels:\n', y_train_onehot[:3])
 
-X_train = np.concatenate((X_train, X_test), axis=0)
-np.save(os.path.join(StoreFolder_all_labeled, 'X_train.npy'), X_train) # STORE BEFORE PREPROCESSING, BUT AFTER SHUFFLING!
+X_train_all = np.concatenate((X_train, X_test), axis=0)
+np.save(os.path.join(StoreFolder_all_labeled, 'X_train.npy'), X_train_all) # STORE BEFORE PREPROCESSING, BUT AFTER SHUFFLING!
  
 #########################################################
 # TRAIN DATA
