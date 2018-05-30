@@ -96,7 +96,7 @@ class NeuralNetworks():
                     activation_fn=activation)
         # Dropout
         keep_prob = tf.placeholder(tf.float32, name='fc_keep_prob')
-        h_drop = tf.nn.dropout(h4, keep_prob=keep_prob, name='dropout_layer')
+        h_drop = tf.nn.dropout(h5, keep_prob=keep_prob, name='dropout_layer')
 
         # logits layer: FulCon_3 (linear activation)
         logits = fc_layer(h_drop, name='fc_logits',
