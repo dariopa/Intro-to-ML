@@ -54,10 +54,10 @@ Val_split = 9.5/10
 preprocessing = True
 
 # Hyperparameters
-epochs = 500
+epochs = 400
 batch_size = 128
 learning_rate = 0.0002
-params = 500
+params = 800
 activation = tf.nn.relu
 
 # At which sample starts the prediction for the test data?

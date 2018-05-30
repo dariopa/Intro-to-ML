@@ -88,15 +88,31 @@ class NeuralNetworks():
                     activation_fn=activation)
         # 4nd layer: FulCon_4
         h4 = fc_layer(h3, name='fc_4',
-                    n_output_units=params,
+                    n_output_units=params/2,
                     activation_fn=activation)
         # 5nd layer: FulCon_5
         h5 = fc_layer(h4, name='fc_5',
+                    n_output_units=params/2,
+                    activation_fn=activation)
+        # 6nd layer: FulCon_6
+        h6 = fc_layer(h5, name='fc_6',
+                    n_output_units=params/4,
+                    activation_fn=activation)
+        # 7nd layer: FulCon_7
+        h7 = fc_layer(h6, name='fc_7',
+                    n_output_units=params/4,
+                    activation_fn=activation)
+        # 8nd layer: FulCon_8
+        h8 = fc_layer(h7, name='fc_8',
+                    n_output_units=params/2,
+                    activation_fn=activation)
+        # 9nd layer: FulCon_9
+        h9 = fc_layer(h8, name='fc_9',
                     n_output_units=params,
                     activation_fn=activation)
         # Dropout
         keep_prob = tf.placeholder(tf.float32, name='fc_keep_prob')
-        h_drop = tf.nn.dropout(h5, keep_prob=keep_prob, name='dropout_layer')
+        h_drop = tf.nn.dropout(h9, keep_prob=keep_prob, name='dropout_layer')
 
         # logits layer: FulCon_3 (linear activation)
         logits = fc_layer(h_drop, name='fc_logits',
