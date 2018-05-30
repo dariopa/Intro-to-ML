@@ -1,5 +1,5 @@
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = os.environ['SGE_GPU']
+# os.environ["CUDA_VISIBLE_DEVICES"] = os.environ['SGE_GPU']
 import shutil
 import numpy as np
 import pandas as pd
@@ -7,7 +7,7 @@ import tensorflow as tf
 import time
 import random
 import matplotlib
-matplotlib.use('PS') 
+# matplotlib.use('PS') 
 from matplotlib.pyplot import imshow
 import matplotlib.pyplot as plt
 import tensorflow.contrib.keras as keras
@@ -27,7 +27,7 @@ config.allow_soft_placement = True #If an operation is not defined in the defaul
 
 
 # Data Path
-CallFolder = '../Raw_Data/'
+CallFolder = '../../Raw_Data/'
 
 StoreFolder ='Final_Results/'
 if not os.path.isdir(StoreFolder):
@@ -53,10 +53,13 @@ final_submission = True
 Train_split = 9.5/10
 
 # Hyperparameters
-epochs = 100
-param = 30
-layers = 2
-batch_size = 32
+epochs = 200
+param = 800
+layers = 1
+batch_size = 128
+
+# At which sample starts the prediction for the test data?
+sample_number = 30000
 
 #########################################################
 # LOAD AND SHUFFLE DATA!
@@ -84,10 +87,12 @@ model = KERAS.build(X_train, y_train_onehot, param, layers)
 trained_model, losses = KERAS.fit(model, X_train, y_train_onehot, epochs, batch_size)
 # predict labels:
 y_test_pred = KERAS.predict(trained_model, X_test)
-    
+
 timestr = time.strftime("%Y%m%d-%H%M%S")
-PrintOutput(y_test_pred, os.path.join(StoreFolder_selfeval, timestr + '_' + str(epochs) + '_' + str(param) + '_' + str(layers) + '_' + str(batch_size) + '_y_test.csv'))
-print('\nJob Done!')
+PrintOutput(y_test_pred, sample_number, os.path.join(StoreFolder_selfeval, timestr + '_' + str(epochs) + '_' + str(param) + '_' + str(layers) + '_' + str(batch_size) + '_y_test.csv'))
+
+y_train = np.concatenate((y_train, y_test_pred), axis=0)
+np.save(os.path.join(StoreFolder_all_labeled, 'y_train.npy'), y_train)
 
 plt.figure(1)
 plt.plot(range(1, len(losses) + 1), losses)
@@ -95,3 +100,5 @@ plt.title('Training loss')
 plt.xlabel('Epoch')
 plt.ylabel('Average Training Loss')
 plt.savefig(os.path.join(StoreFolder_selfeval, timestr + '_' + str(epochs) + '_' + str(param) + '_' + str(layers) + '_' + str(batch_size) + '_TrainLoss.jpg'))
+
+print('\nJob Done!')

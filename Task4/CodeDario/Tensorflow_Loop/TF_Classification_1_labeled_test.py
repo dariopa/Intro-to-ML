@@ -25,7 +25,7 @@ np.random.seed(random_seed)
 tf.set_random_seed(random_seed)
 
 # Data Path
-CallFolder = '../Raw_Data/'
+CallFolder = '../../Raw_Data/'
 
 StoreFolder ='Final_Results/'
 if not os.path.isdir(StoreFolder):

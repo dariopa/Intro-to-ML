@@ -27,7 +27,7 @@ np.random.seed(random_seed)
 tf.set_random_seed(random_seed)
 
 # Data Path
-CallFolder = '../Raw_Data/'
+CallFolder = '../../Raw_Data/'
 CallFolder_new_data = 'All_labeled_data/'
 
 StoreFolder ='Final_Results/'
@@ -54,11 +54,11 @@ Val_split = 9.5/10
 preprocessing = True
 
 # Hyperparameters
-epochs = 400
-batch_size = 128
+epochs = 40
+batch_size = 64
 learning_rate = 0.0002
-params = 800
-activation = tf.nn.sigmoid
+params = 2000
+activation = tf.nn.relu
 
 # At which sample starts the prediction for the test data?
 sample_number = 30000

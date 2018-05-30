@@ -1,13 +1,11 @@
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = os.environ['SGE_GPU']
 import shutil
 import numpy as np
 import tensorflow as tf
 import time
 import pandas as pd
 import random
-import matplotlib
-matplotlib.use('PS') 
+from matplotlib.pyplot import imshow
 import matplotlib.pyplot as plt
 from sklearn.utils import shuffle
 from sklearn.preprocessing import normalize
@@ -27,8 +25,7 @@ np.random.seed(random_seed)
 tf.set_random_seed(random_seed)
 
 # Data Path
-CallFolder = '../Raw_Data/'
-CallFolder_new_data = 'All_labeled_data/'
+CallFolder = '../../Raw_Data/'
 
 StoreFolder ='Final_Results/'
 if not os.path.isdir(StoreFolder):
@@ -46,7 +43,7 @@ if not os.path.isdir(StoreFolder_selfeval):
 
 #########################################################
 # Decide whether self-evaluation or final submission
-final_submission = True
+final_submission = False
 Test_split = 9.5/10
 Val_split = 9.5/10
 
@@ -54,10 +51,10 @@ Val_split = 9.5/10
 preprocessing = True
 
 # Hyperparameters
-epochs = 40
-batch_size = 64
+epochs = 120
+batch_size = 128
 learning_rate = 0.0002
-params = 2000
+params = 200
 activation = tf.nn.relu
 
 # At which sample starts the prediction for the test data?
@@ -65,9 +62,10 @@ sample_number = 30000
 
 #########################################################
 # LOAD AND SHUFFLE DATA!
-X_train = np.load(os.path.join(CallFolder_new_data, 'X_train.npy'))
+DataTrain = np.array(pd.read_hdf(CallFolder + "train_labeled.h5", "train"))
+X_train= DataTrain[:, 1:]
 features = X_train.shape[1]
-y_train = np.load(os.path.join(CallFolder_new_data, 'y_train.npy'))
+y_train = DataTrain[:, 0]
 classes = np.max(y_train) + 1
 
 X_test = np.array(pd.read_hdf(CallFolder + "test.h5", "test"))
