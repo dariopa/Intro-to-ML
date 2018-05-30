@@ -1,8 +1,11 @@
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = os.environ['SGE_GPU']
+import shutil
 import numpy as np
+import pandas as pd
 import tensorflow as tf
 import time
+import random
 import matplotlib
 matplotlib.use('PS') 
 from matplotlib.pyplot import imshow
@@ -13,6 +16,7 @@ from sklearn.metrics import mean_squared_error
 from utils_models import KERAS
 from utils_output import PrintOutput
 from utils_preprocessing import centering
+
 
 np.random.seed(123)
 tf.set_random_seed(123)
