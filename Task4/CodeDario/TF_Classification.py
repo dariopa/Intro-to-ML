@@ -46,7 +46,7 @@ if not os.path.isdir(StoreFolder_selfeval):
 #########################################################
 # Decide whether self-evaluation or final submission
 final_submission = True
-Train_split = 9.5./10
+Train_split = 9.5/10
 
 # Hyperparameters
 epochs = 100
