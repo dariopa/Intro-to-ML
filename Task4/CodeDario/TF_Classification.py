@@ -76,8 +76,7 @@ np.save(os.path.join(StoreFolder_all_labeled, 'X_train.npy'), X_train) # STORE B
  
 #########################################################
 # TRAIN DATA
-if preprocessing == True:
-    X_train, X_test = centering(X_train, X_test)
+X_train, X_test = centering(X_train, X_test)
 
 # build model:
 model = KERAS.build(X_train, y_train_onehot, param, layers)
