@@ -55,8 +55,8 @@ Train_split = 9.5/10
 
 # Hyperparameters
 epochs = 200
-param = 800
-layers = 42
+param = 10000
+layers = 3
 batch_size = 128
 
 # At which sample starts the prediction for the test data?
