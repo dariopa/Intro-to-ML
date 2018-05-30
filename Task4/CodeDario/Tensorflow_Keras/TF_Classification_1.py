@@ -52,9 +52,9 @@ if not os.path.isdir(StoreFolder_selfeval):
 final_submission = True
 
 # Hyperparameters
-epochs = 50
+epochs = 500
 param = 3000
-layers = 2
+layers = 33
 batch_size = 128
 
 # At which sample starts the prediction for the test data?
