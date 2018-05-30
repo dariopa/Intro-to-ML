@@ -1,13 +1,11 @@
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = os.environ['SGE_GPU']
 import shutil
 import numpy as np
 import tensorflow as tf
 import time
 import pandas as pd
 import random
-import matplotlib
-matplotlib.use('PS') 
+from matplotlib.pyplot import imshow
 import matplotlib.pyplot as plt
 from sklearn.utils import shuffle
 from sklearn.preprocessing import normalize
@@ -54,10 +52,10 @@ Val_split = 9.5/10
 preprocessing = True
 
 # Hyperparameters
-epochs = 40
-batch_size = 64
+epochs = 20
+batch_size = 128
 learning_rate = 0.0002
-params = 2000
+params = 800
 activation = tf.nn.relu
 
 # At which sample starts the prediction for the test data?
