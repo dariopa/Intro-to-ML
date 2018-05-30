@@ -58,7 +58,7 @@ epochs = 400
 batch_size = 128
 learning_rate = 0.0002
 params = 800
-activation = tf.nn.tanh
+activation = tf.nn.sigmoid
 
 # At which sample starts the prediction for the test data?
 sample_number = 30000
