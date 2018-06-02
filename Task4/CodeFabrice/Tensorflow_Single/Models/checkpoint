@@ -1,0 +1,6 @@
+model_checkpoint_path: "nn-model.ckpt-42"
+all_model_checkpoint_paths: "nn-model.ckpt-9"
+all_model_checkpoint_paths: "nn-model.ckpt-12"
+all_model_checkpoint_paths: "nn-model.ckpt-26"
+all_model_checkpoint_paths: "nn-model.ckpt-30"
+all_model_checkpoint_paths: "nn-model.ckpt-42"
